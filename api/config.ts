@@ -1,5 +1,5 @@
 export var config = {
     web: {
-        uri: 'http://localhost:4200'
+        uri: 'http://localhost:4300'
     }
 }
