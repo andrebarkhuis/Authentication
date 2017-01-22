@@ -1,8 +1,5 @@
-/// <reference path="./typings/index.d.ts"/>
-
 import express = require("express");
 import bodyParser = require('body-parser');
-
 import authRoute = require('./routes/auth');
 
 export class WebApi {

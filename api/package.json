@@ -4,11 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "apidoc -i ./routes/ -o docs/"
   },
   "author": "Barend Erasmus",
   "license": "MIT",
   "dependencies": {
+    "@types/es6-promise": "0.0.32",
     "base-64": "^0.1.0",
     "body-parser": "^1.16.0",
     "client-oauth2": "^3.4.0",
@@ -18,6 +20,7 @@
     "gulp-clean": "^0.3.2",
     "gulp-typescript": "^3.1.4",
     "request": "^2.79.0",
+    "swaggerize-express": "^4.0.5",
     "typescript": "^2.1.5",
     "utf8": "^2.1.2",
     "uuid": "^3.0.1"

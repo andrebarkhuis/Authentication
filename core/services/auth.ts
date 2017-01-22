@@ -50,8 +50,12 @@ export class AuthService {
                     reject(err);
                 } else {
                     var collection = db.collection('credentials');
-                    collection.insertOne({usernmae: username, password: password}, (err: Error, result: any) => {
-                        resolve(true);
+                    collection.findOne({clientId: clientId, username: username, password: password}, (err: Error, result: any) => {
+                        if (result == null) {
+                            resolve(false);
+                        }else {
+                            resolve(true);
+                        }
                         db.close();
                     });
                 }
@@ -61,7 +65,7 @@ export class AuthService {
 
     createClientAuths(clientId: string, redirectUri: string) {
 
-        let encodedState = this.createState(clientId, redirectUri);
+        let encodedState = this.encodeState(clientId, redirectUri);
 
         let githubAuth = new clientOAuth2({
             clientId: this.oauthConfig.github.clientId,
@@ -101,7 +105,7 @@ export class AuthService {
         };
     }
 
-    createState(clientId: string, redirectUri: string) {
+    encodeState(clientId: string, redirectUri: string) {
 
         if (redirectUri == null) {
             return null;

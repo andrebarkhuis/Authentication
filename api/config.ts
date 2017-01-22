@@ -1,11 +1,12 @@
 export var config = {
-    baseUri: 'http://localhost:9009',
+    baseUri: 'http://api.authentication.developersworkspace.co.za',
+    //baseUri: 'http://localhost:9009',
     jwt: {
         issuer: 'DevelopersWorkspace.Authentication',
         secret: 'hello_world'
     },
     web: {
-        uri: 'http://localhost:4300'
+        uri: 'http://authentication.developersworkspace.co.za'
     },
     oauth: {
         github: {
@@ -19,6 +20,6 @@ export var config = {
     },
     mongoDb: {
         server: 'localhost',
-        database: 'DevelopersWorkspace.Authentication'
+        database: 'authentication'
     }
 }

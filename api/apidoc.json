@@ -1,0 +1,12 @@
+{
+  "name": "apidoc-example1",
+  "version": "1.0.0",
+  "description": "apidoc example project",
+  "title": "Custom apiDoc browser title",
+  "url" : "http://api.authentication.developersworkspace.co.za/api",
+  "sampleUrl": "http://localhost:9009/api",
+  "template": {
+  	"withCompare": false,
+  	"withGenerator": false
+  }
+}

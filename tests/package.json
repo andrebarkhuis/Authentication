@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./core/**/*.js",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha --root ./../core ./core/**/*.js"
+    "test": "gulp ts & mocha --timeout=5000 ./core/**/*.js",
+    "cover": "gulp ts & istanbul cover node_modules/mocha/bin/_mocha --root ./../core ./core/**/*.js"
   },
   "author": "Barend Erasmus",
   "license": "MIT",
   "dependencies": {
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.38",
+    "@types/es6-promise": "0.0.32",
+    "@types/mongodb": "^2.1.37",
+    "mongodb": "^2.2.21",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
