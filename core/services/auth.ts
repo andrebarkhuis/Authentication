@@ -3,10 +3,11 @@ import * as jwt from 'jsonwebtoken';
 import * as base64 from 'base-64';
 import * as utf8 from 'utf8';
 import * as clientOAuth2 from 'client-oauth2';
+import * as mongodb from 'mongodb';
 
 export class AuthService {
 
-    constructor(private baseUri: string, private jwtSecret: string, private jwtIssuer: string, private oauthConfig: any) { }
+    constructor(private baseUri: string, private jwtSecret: string, private jwtIssuer: string, private oauthConfig: any, private mongoDbConfig: any) { }
 
     authorize(clientId: string, username: string) {
         let token = jwt.sign({ username: username }, this.jwtSecret, {
@@ -42,7 +43,20 @@ export class AuthService {
     }
 
     authenticate(clientId: string, username: string, password: string) {
-        return true;
+        return new Promise((resolve: Function, reject: Function) => {
+            let mongoClient = new mongodb.MongoClient();
+            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    var collection = db.collection('credentials');
+                    collection.insertOne({usernmae: username, password: password}, (err: Error, result: any) => {
+                        resolve(true);
+                        db.close();
+                    });
+                }
+            });
+        });
     }
 
     createClientAuths(clientId: string, redirectUri: string) {

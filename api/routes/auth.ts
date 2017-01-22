@@ -115,7 +115,7 @@ router.get('/google/callback', (req: Request, res: Response, next: Function) => 
 });
 
 function getAuthService() {
-    let authService = new AuthService(config.baseUri, config.jwt.secret, config.jwt.issuer, config.oauth);
+    let authService = new AuthService(config.baseUri, config.jwt.secret, config.jwt.issuer, config.oauth, config.mongoDb);
     return authService;
 }
 

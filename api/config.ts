@@ -16,5 +16,9 @@ export var config = {
             clientId: '136693745519-hl3n0m72r4hpc1vpc49kgg804120vv5t.apps.googleusercontent.com',
             clientSecret: 'ily5DezHxdqm4xXrsqBIZ9pn'
         }
+    },
+    mongoDb: {
+        server: 'localhost',
+        database: 'DevelopersWorkspace.Authentication'
     }
 }

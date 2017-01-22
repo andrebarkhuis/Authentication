@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/es6-promise": "0.0.32",
+    "@types/mongodb": "^2.1.37",
     "base-64": "^0.1.0",
     "client-oauth2": "^3.4.0",
     "gulp": "^3.9.1",
@@ -17,6 +18,7 @@
     "gulp-typescript": "^3.1.4",
     "jsonwebtoken": "^7.2.1",
     "mocha": "^3.2.0",
+    "mongodb": "^2.2.21",
     "ts-node": "^2.0.0",
     "typescript": "^2.1.5",
     "utf8": "^2.1.2",
