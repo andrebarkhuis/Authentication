@@ -1,11 +1,13 @@
 FROM node:6.9.4
 
-RUN npm install -g gulp
-ADD . ./api
-ADD ./../core ./core
+ADD ./api /api
+WORKDIR /api
 RUN npm install
-# RUN gulp ts
 
-EXPOSE 9009
+ADD ./core /core
+WORKDIR /core
+RUN npm install
 
-CMD ["node", "app.js"]
+WORKDIR /
+
+CMD ["node", "./api/app.js"]
