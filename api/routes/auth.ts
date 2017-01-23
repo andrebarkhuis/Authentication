@@ -7,14 +7,14 @@ let express = require('express');
 let router = express.Router();
 
 /**
- * @api {get} /auth/authorize Authorize
+ * @api {get} /auth/authorize RETRIEVE AN AUTHORIZATION GRANT
  * @apiName Authorize
  * @apiGroup Auth
  *
- * @apiParam {String} response_type Empty.
- * @apiParam {String} client_id Empty.
- * @apiParam {String} redirect_uri Empty.
- * @apiParam {String} scope Empty.
+ * @apiParam {String} response_type Authorization grant type requested. If you want to follow Authorization Code Flow, use code and if you want to use Implicit Flow, use token.
+ * @apiParam {String} client_id The unique identifier of the client you received from registration.
+ * @apiParam {String} redirect_uri The URL you registered as the Callback URL during the client registration.
+ * @apiParam {String} scope A list of space-delimited scopes of the access request.
  *
  */
 router.get('/authorize', (req: Request, res: Response, next: Function) => {
@@ -33,13 +33,13 @@ router.get('/authorize', (req: Request, res: Response, next: Function) => {
 });
 
 /**
- * @api {get} /auth/verify Verify
+ * @api {get} /auth/verify VERIFY A JSON WEB TOKEN
  * @apiName Verify
  * @apiGroup Auth
  *
- * @apiParam {String} token Empty.
+ * @apiParam {String} token JSON Web Token (JWT) (RFC 7519).
  * 
- * @apiSuccess {Boolean} success Empty.
+ * @apiSuccess {Boolean} success If valid token, returns true, otherwise false.
  */
 router.get('/verify', (req: Request, res: Response, next: Function) => {
     let authService = getAuthService();
@@ -51,16 +51,16 @@ router.get('/verify', (req: Request, res: Response, next: Function) => {
 });
 
 /**
- * @api {get} /auth/token Token
+ * @api {get} /auth/token RETRIEVE AN ACCESS TOKEN
  * @apiName Token
  * @apiGroup Auth
  *
- * @apiParam {String} grant_type Empty.
- * @apiParam {String} username Empty.
- * @apiParam {String} password Empty.
- * @apiParam {String} client_id Empty.
+ * @apiParam {String} grant_type A grant type. If you want to follow Authorization Code Flow then use authorization_code and if you want to use Resource Owner Password Credentials Flow, use password.
+ * @apiParam {String} username The resource owner username. Required if grant_type is equal to password.
+ * @apiParam {String} password The resource owner password. Required if grant_type is equal to password.
+ * @apiParam {String} client_id The unique identifier of the client you received from registration.
  * 
- * @apiSuccess {Boolean} token Empty.
+ * @apiSuccess {Boolean} token JSON Web Token (JWT) (RFC 7519).
  * @apiSuccess {Boolean} message Empty.
  * 
  */
@@ -92,12 +92,12 @@ router.get('/token', (req: Request, res: Response, next: Function) => {
 });
 
 /**
- * @api {get} /auth/github Github
+ * @api {get} /auth/github AUTHENTICATE USING GITHUB
  * @apiName Github
  * @apiGroup Auth
  *
- * @apiParam {String} client_id Empty.
- * @apiParam {String} redirect_uri Empty.
+ * @apiParam {String} client_id The unique identifier of the client you received from registration.
+ * @apiParam {String} redirect_uri The URL you registered as the Callback URL during the client registration.
  * 
  */
 router.get('/github', (req: Request, res: Response, next: Function) => {
@@ -108,12 +108,12 @@ router.get('/github', (req: Request, res: Response, next: Function) => {
 });
 
 /**
- * @api {get} /auth/google Google
+ * @api {get} /auth/google AUTHENTICATE USING GOOGLE
  * @apiName Google
  * @apiGroup Auth
  *
- * @apiParam {String} client_id Empty.
- * @apiParam {String} redirect_uri Empty.
+ * @apiParam {String} client_id The unique identifier of the client you received from registration.
+ * @apiParam {String} redirect_uri The URL you registered as the Callback URL during the client registration.
  * 
  */
 router.get('/google', (req: Request, res: Response, next: Function) => {
@@ -124,12 +124,12 @@ router.get('/google', (req: Request, res: Response, next: Function) => {
 });
 
 /**
- * @api {get} /auth/github/callback Github Callback
- * @apiName Github Callback
+ * @api {get} /auth/github/callback GITHUB CALLBACK
+ * @apiName GithubCallback
  * @apiGroup Auth
  *
- * @apiParam {String} code Empty.
- * @apiParam {String} state Empty.
+ * @apiParam {String} code An authorization code, which can be used to obtain an access token.
+ * @apiParam {String} state An opaque string value used to maintain state between the request and callback.
  * 
  */
 router.get('/github/callback', (req: Request, res: Response, next: Function) => {
@@ -158,8 +158,8 @@ router.get('/github/callback', (req: Request, res: Response, next: Function) => 
 
 
 /**
- * @api {get} /auth/google/callback Google Callback
- * @apiName Google Callback
+ * @api {get} /auth/google/callback GOOGLE CALLBACK
+ * @apiName GoogleCallback
  * @apiGroup Auth
  *
  * @apiParam {String} code Empty.

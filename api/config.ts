@@ -1,5 +1,5 @@
 export var config = {
-    baseUri: 'http://api.authentication.developersworkspace.co.za',
+    baseUri: 'http://api.developersworkspace.co.za',
     //baseUri: 'http://localhost:9009',
     jwt: {
         issuer: 'DevelopersWorkspace.Authentication',
