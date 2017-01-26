@@ -6,13 +6,13 @@
   "url" : "http://api.developersworkspace.co.za/api",
   "sampleUrl": "http://api.developersworkspace.co.za/api",
   "order": [
-    "Authorize",
-    "Token",
-    "Verify",
-    "Google",
-    "GoogleCallback",
-    "Github",
-    "GithubCallback"
+    "AuthAuthorize",
+    "AuthToken",
+    "AuthVerify",
+    "AuthGoogle",
+    "AuthGoogleCallback",
+    "AuthGithub",
+    "AuthGithubCallback"
   ],
   "template": {
   	"withCompare": true,

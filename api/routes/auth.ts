@@ -1,6 +1,7 @@
 import { Express, Request, Response } from "express";
 import { config } from './../config';
 import { AuthService } from './../../core/services/auth';
+import { CredentialsRepository } from './../../core/repositories/credentials';
 import * as request from 'request';
 
 let express = require('express');
@@ -8,7 +9,7 @@ let router = express.Router();
 
 /**
  * @api {get} /auth/authorize RETRIEVE AN AUTHORIZATION GRANT
- * @apiName Authorize
+ * @apiName AuthAuthorize
  * @apiGroup Auth
  *
  * @apiParam {String} response_type Authorization grant type requested. If you want to follow Authorization Code Flow, use code and if you want to use Implicit Flow, use token.
@@ -34,7 +35,7 @@ router.get('/authorize', (req: Request, res: Response, next: Function) => {
 
 /**
  * @api {get} /auth/verify VERIFY A JSON WEB TOKEN
- * @apiName Verify
+ * @apiName AuthVerify
  * @apiGroup Auth
  *
  * @apiParam {String} token JSON Web Token (JWT) (RFC 7519).
@@ -52,7 +53,7 @@ router.get('/verify', (req: Request, res: Response, next: Function) => {
 
 /**
  * @api {get} /auth/token RETRIEVE AN ACCESS TOKEN
- * @apiName Token
+ * @apiName AuthToken
  * @apiGroup Auth
  *
  * @apiParam {String} grant_type A grant type. If you want to follow Authorization Code Flow then use authorization_code and if you want to use Resource Owner Password Credentials Flow, use password.
@@ -93,7 +94,7 @@ router.get('/token', (req: Request, res: Response, next: Function) => {
 
 /**
  * @api {get} /auth/github AUTHENTICATE USING GITHUB
- * @apiName Github
+ * @apiName AuthGithub
  * @apiGroup Auth
  *
  * @apiParam {String} client_id The unique identifier of the client you received from registration.
@@ -109,7 +110,7 @@ router.get('/github', (req: Request, res: Response, next: Function) => {
 
 /**
  * @api {get} /auth/google AUTHENTICATE USING GOOGLE
- * @apiName Google
+ * @apiName AuthGoogle
  * @apiGroup Auth
  *
  * @apiParam {String} client_id The unique identifier of the client you received from registration.
@@ -125,7 +126,7 @@ router.get('/google', (req: Request, res: Response, next: Function) => {
 
 /**
  * @api {get} /auth/github/callback GITHUB CALLBACK
- * @apiName GithubCallback
+ * @apiName AuthGithubCallback
  * @apiGroup Auth
  *
  * @apiParam {String} code An authorization code, which can be used to obtain an access token.
@@ -159,7 +160,7 @@ router.get('/github/callback', (req: Request, res: Response, next: Function) => 
 
 /**
  * @api {get} /auth/google/callback GOOGLE CALLBACK
- * @apiName GoogleCallback
+ * @apiName AuthGoogleCallback
  * @apiGroup Auth
  *
  * @apiParam {String} code Empty.
@@ -187,7 +188,8 @@ router.get('/google/callback', (req: Request, res: Response, next: Function) => 
 });
 
 function getAuthService() {
-    let authService = new AuthService(config.baseUri, config.jwt.secret, config.jwt.issuer, config.oauth, config.mongoDb);
+    let credentialsRepository = new CredentialsRepository(config.mongoDb);
+    let authService = new AuthService(config.baseUri, config.jwt.secret, config.jwt.issuer, config.oauth, credentialsRepository);
     return authService;
 }
 
