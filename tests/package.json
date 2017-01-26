@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "gulp ts & mocha --timeout=5000 ./core/**/*.js",
+    "test": "gulp --cwd ./../core ts & gulp ts & mocha --timeout=5000 ./core/**/*.js",
     "cover": "gulp ts & istanbul cover node_modules/mocha/bin/_mocha --root ./../core ./core/**/*.js"
   },
   "author": "Barend Erasmus",

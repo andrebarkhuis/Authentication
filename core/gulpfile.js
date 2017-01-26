@@ -12,27 +12,27 @@ gulp.task('ts', ['clean'], function() {
 });
 
 
-gulp.task('deploy1', ['clean'], function () {
+gulp.task('build1', ['clean'], function () {
     return gulp
         .src('./../dist/core', { read: false })
         .pipe(clean({force: true}));
 });
 
-gulp.task('deploy2', ['deploy1'], function () {
+gulp.task('build2', ['build1'], function () {
     return gulp
         .src(serverTS, { base: './' })
         .pipe(ts({ module: 'commonjs', noImplicitAny: false, allowJs: true, allowUnreachableCode: true }))
         .pipe(gulp.dest('./../dist/core'));
 });
 
-gulp.task('deploy3', ['deploy2'], function () {
+gulp.task('build3', ['build2'], function () {
     return gulp
         .src('./package.json')
         .pipe(gulp.dest('./../dist/core'));
 });
 
 
-gulp.task('deploy', ['deploy3'], function () {
+gulp.task('build', ['build3'], function () {
 
 });
 

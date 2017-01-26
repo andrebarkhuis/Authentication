@@ -1,16 +1,19 @@
 import { AuthService } from './../../../core/services/auth';
+import { CredentialsRepository } from './../../../core/repositories/credentials';
 import 'mocha';
 import { expect } from 'chai';
-import * as mongodb from 'mongodb';
 
 describe('AuthService', () => {
     let authService: AuthService;
+    let credentialsRepository: CredentialsRepository;
 
     beforeEach(function (done: Function) {
         let mongoDbConfig = {
             server: 'localhost',
             database: 'authentication'
         };
+
+        credentialsRepository = new CredentialsRepository(mongoDbConfig);
 
         authService = new AuthService('', 'hello_world', 'foo bar', {
             github: {
@@ -21,27 +24,16 @@ describe('AuthService', () => {
                 clientId: '',
                 clientSecret: ''
             }
-        }, mongoDbConfig);
+        }, credentialsRepository);
 
-
-        let mongoClient = new mongodb.MongoClient();
-        mongoClient.connect('mongodb://' + mongoDbConfig.server + ':27017/' + mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
-            if (err) {
+        credentialsRepository.clear().then((result) => {
+            credentialsRepository.create('test-client-id', 'test-username', 'test-password').then((result) => {
+                done();
+            }).catch((err: Error) => {
                 done(err);
-            } else {
-                db.dropDatabase().then((result) => {
-                    let collection = db.collection('credentials');
-                    collection.insertOne({
-                        clientId: 'test-client-id',
-                        username: 'test-username',
-                        password: 'test-password'
-                    }, (err: Error, result: any) => {
-                        done();
-                    });
-                }).catch((err: Error) => {
-                    done(err);
-                });
-            }
+            });
+        }).catch((err: Error) => {
+            done(err);
         });
     });
 

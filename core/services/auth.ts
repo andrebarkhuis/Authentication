@@ -3,11 +3,11 @@ import * as jwt from 'jsonwebtoken';
 import * as base64 from 'base-64';
 import * as utf8 from 'utf8';
 import * as clientOAuth2 from 'client-oauth2';
-import * as mongodb from 'mongodb';
+import { CredentialsRepository } from './../repositories/credentials';
 
 export class AuthService {
 
-    constructor(private baseUri: string, private jwtSecret: string, private jwtIssuer: string, private oauthConfig: any, private mongoDbConfig: any) { }
+    constructor(private baseUri: string, private jwtSecret: string, private jwtIssuer: string, private oauthConfig: any, private credentialsRepository: CredentialsRepository) { }
 
     authorize(clientId: string, username: string) {
         let token = jwt.sign({ username: username }, this.jwtSecret, {
@@ -43,24 +43,7 @@ export class AuthService {
     }
 
     authenticate(clientId: string, username: string, password: string) {
-        return new Promise((resolve: Function, reject: Function) => {
-            let mongoClient = new mongodb.MongoClient();
-            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    var collection = db.collection('credentials');
-                    collection.findOne({clientId: clientId, username: username, password: password}, (err: Error, result: any) => {
-                        if (result == null) {
-                            resolve(false);
-                        }else {
-                            resolve(true);
-                        }
-                        db.close();
-                    });
-                }
-            });
-        });
+           return this.credentialsRepository.validate(clientId, username, password);
     }
 
     createClientAuths(clientId: string, redirectUri: string) {
