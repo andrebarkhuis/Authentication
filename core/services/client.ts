@@ -1,9 +1,10 @@
 import { Client } from './../models/client';
 import * as uuid from 'uuid';
+import { ClientRepository } from './../repositories/client'
 
 export class ClientService {
 
-    constructor() {
+    constructor(private clientRepository: ClientRepository) {
 
     }
 

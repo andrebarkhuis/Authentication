@@ -1,6 +1,7 @@
 import express = require("express");
 import bodyParser = require('body-parser');
 import authRoute = require('./routes/auth');
+import userRoute = require('./routes/user');
 
 export class WebApi {
     /**
@@ -22,6 +23,7 @@ export class WebApi {
 
     private configureRoutes(app: express.Express) {
         app.use("/api/auth", authRoute);
+        app.use("/api/user", userRoute);
     }
 
     public run() {
