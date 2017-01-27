@@ -1,6 +1,5 @@
 export var config = {
     baseUri: 'http://api.developersworkspace.co.za',
-    //baseUri: 'http://localhost:9009',
     admin: {
         jwt: {
          issuer: null,
