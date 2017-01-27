@@ -32,34 +32,21 @@ export class ClientRepository {
 
     findByIdAndSecret(id: string, secret: string) {
         return new Promise((resolve: Function, reject: Function) => {
-           if (id == 'abc' && secret == 'def') {
-                resolve(new Client('DW', 'abc', 'def'));
-           }else {
-               resolve(null);
-           }
+            if (id == 'lCve1IH1HN' && secret == 'wGnysHvTAX') {
+                resolve(new Client('Developer\'s Workspace', 'lCve1IH1HN', 'wGnysHvTAX'));
+            } else {
+                resolve(null);
+            }
         });
     }
 
-     findById(id: string) {
+    findById(id: string) {
         return new Promise((resolve: Function, reject: Function) => {
-            let mongoClient = new mongodb.MongoClient();
-            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    var collection = db.collection('clients');
-                    collection.findOne({ clientId: id }, (err: Error, result: any) => {
-                        if (err) {
-                            reject(err);
-                        } else if (result == null) {
-                            resolve(null);
-                        } else {
-                            resolve(new Client(result.name, result.clientId, result.clientSecret));
-                        }
-                        db.close();
-                    });
-                }
-            });
+            if (id == 'lCve1IH1HN') {
+                resolve(new Client('Developer\'s Workspace', 'lCve1IH1HN', 'wGnysHvTAX'));
+            } else {
+                resolve(null);
+            }
         });
     }
 }
