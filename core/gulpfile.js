@@ -14,7 +14,7 @@ gulp.task('ts', ['clean'], function() {
 
 gulp.task('build1', ['clean'], function () {
     return gulp
-        .src('./../dist/core', { read: false })
+        .src('./../dist/api/core', { read: false })
         .pipe(clean({force: true}));
 });
 
@@ -22,13 +22,13 @@ gulp.task('build2', ['build1'], function () {
     return gulp
         .src(serverTS, { base: './' })
         .pipe(ts({ module: 'commonjs', noImplicitAny: false, allowJs: true, allowUnreachableCode: true }))
-        .pipe(gulp.dest('./../dist/core'));
+        .pipe(gulp.dest('./../dist/api/core'));
 });
 
 gulp.task('build3', ['build2'], function () {
     return gulp
         .src('./package.json')
-        .pipe(gulp.dest('./../dist/core'));
+        .pipe(gulp.dest('./../dist/api/core'));
 });
 
 
