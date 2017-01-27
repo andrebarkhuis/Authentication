@@ -7,7 +7,7 @@ services:
     web:
         build: web
         ports:
-        - "80:80"
+        - "9010:80"
         links: 
         - mongo
     mongo:

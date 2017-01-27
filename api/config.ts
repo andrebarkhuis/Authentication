@@ -3,13 +3,13 @@ export var config = {
     //baseUri: 'http://localhost:9009',
     admin: {
         jwt: {
-         issuer: 'DevelopersWorkspace.Authentication.Admin',
-         secret: 'hello_world_admin'   
+         issuer: null,
+         secret: null   
         }
     },
     jwt: {
-        issuer: 'DevelopersWorkspace.Authentication',
-        secret: 'hello_world'
+        issuer: 'DevelopersWorkspace.Authentication.Admin',
+        secret: 'uZpCvyHZLn'
     },
     web: {
         uri: 'http://authentication.developersworkspace.co.za'
@@ -25,7 +25,7 @@ export var config = {
         }
     },
     mongoDb: {
-        server: 'localhost',
+        server: 'mongo',
         database: 'authentication'
     }
 }
