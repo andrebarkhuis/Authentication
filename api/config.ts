@@ -1,6 +1,12 @@
 export var config = {
     baseUri: 'http://api.developersworkspace.co.za',
     //baseUri: 'http://localhost:9009',
+    admin: {
+        jwt: {
+         issuer: 'DevelopersWorkspace.Authentication.Admin',
+         secret: 'hello_world_admin'   
+        }
+    },
     jwt: {
         issuer: 'DevelopersWorkspace.Authentication',
         secret: 'hello_world'

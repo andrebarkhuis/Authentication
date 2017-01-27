@@ -1,6 +1,5 @@
 import { Express, Request, Response } from "express";
 import { config } from './../config';
-import { UserService } from './../../core/services/user';
 import { ClientService } from './../../core/services/client';
 import { CredentialsRepository } from './../../core/repositories/credentials';
 import { ClientRepository } from './../../core/repositories/client';
@@ -10,33 +9,36 @@ let express = require('express');
 let router = express.Router();
 
 /**
- * @api {post} /user/create CREATE A NEW USER
- * @apiName UserCreate
- * @apiGroup User
+ * @api {post} /client/create CREATE A NEW CLIENT
+ * @apiName ClientCreate
+ * @apiGroup Client
  *
- * @apiHeader {String} x-client-id Empty.
- * @apiHeader {String} x-client-secret Empty.
+ * @apiHeader {String} Authorization Empty.
  * 
- * @apiParam {String} username Empty.
- * @apiParam {String} password Empty.
+ * @apiParam {String} name Empty.
  * 
  * @apiSuccess {Boolean} success Empty.
  * @apiSuccess {String} message Empty.
  *
  */
 router.post('/create', (req: Request, res: Response, next: Function) => {
-    let userService = getUserService();
     let clientService = getClientService();
 
-    clientService.validate(req.get('x-client-id'), req.get('x-client-secret')).then((result) => {
 
-        if (result == true) {
+    let authorizationHeader = req.get('Authorization');
 
-            userService.create(req.get('x-client-id'), req.body.username, req.body.password).then((result) => {
-                res.json({
-                    success: true,
-                    message: null
-                });
+    if (authorizationHeader == null) {
+        res.json({
+            success: false,
+            message: 'No jwt token provided'
+        });
+    } else {
+        let jwt = authorizationHeader.split(' ')[1];
+        let isValid = clientService.validateJSONWebToken(jwt);
+
+        if (isValid) {
+            clientService.create(req.body.name).then((result: any) => {
+                res.json(result);
             }).catch((err: Error) => {
                 res.json({
                     success: false,
@@ -44,21 +46,15 @@ router.post('/create', (req: Request, res: Response, next: Function) => {
                 });
             });
         } else {
-            throw Error('Invalid client credentials.');
+            res.json({
+                success: false,
+                message: 'Invalid jwt token'
+            });
         }
-    }).catch((err: Error) => {
-        res.json({
-            success: false,
-            message: err.message
-        });
-    });
+    }
 });
 
-function getUserService() {
-    let credentialsRepository = new CredentialsRepository(config.mongoDb);
-    let userService = new UserService(credentialsRepository);
-    return userService;
-}
+
 
 function getClientService() {
     let clientRepository = new ClientRepository(config.mongoDb);

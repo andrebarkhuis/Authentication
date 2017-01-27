@@ -1,11 +1,23 @@
 import { Client } from './../models/client';
 import * as uuid from 'uuid';
-import { ClientRepository } from './../repositories/client'
+import { ClientRepository } from './../repositories/client';
+import * as jwt from 'jsonwebtoken';
 
 export class ClientService {
 
-    constructor(private clientRepository: ClientRepository) {
+    constructor(private clientRepository: ClientRepository, private jwtIssuer: string, private jwtSecret: string) {
 
+    }
+
+    validateJSONWebToken(token: string) {
+        try {
+            let decoded = jwt.verify(token, this.jwtSecret, {
+                issuer: this.jwtIssuer
+            });
+            return true;
+        } catch (err) {
+            return false;
+        }
     }
 
     create(name: string) {
@@ -15,13 +27,26 @@ export class ClientService {
 
             let client = new Client(name, id, secret);
 
-            resolve(client);
+            this.clientRepository.create(name, id, secret).then((result) => {
+                resolve(client);
+            }).catch((err: Error) => {
+                reject(err);
+            });
         });
     }
 
     validate(id: string, secret: string) {
         return new Promise((resolve: Function, reject: Function) => {
-            resolve(true);
+            this.clientRepository.findByIdAndSecret(id, secret).then((result: Client) => {
+                if (result == null) {
+                    resolve(false);
+                } else {
+                    resolve(true);
+                }
+            }).catch((err: Error) => {
+                reject(err);
+            });
         });
     }
+
 }
