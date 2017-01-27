@@ -1,0 +1,14 @@
+version: '2'
+services:
+    api:
+        build: api
+        ports:
+        - "9009:9009"
+    web:
+        build: web
+        ports:
+        - "80:80"
+        links: 
+        - mongo
+    mongo:
+        image: "mongo"
