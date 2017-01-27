@@ -1,7 +1,9 @@
 import { Express, Request, Response } from "express";
 import { config } from './../config';
 import { AuthService } from './../../core/services/auth';
+import { ClientService } from './../../core/services/client';
 import { CredentialsRepository } from './../../core/repositories/credentials';
+import { ClientRepository } from './../../core/repositories/client';
 import * as request from 'request';
 
 let express = require('express');
@@ -103,9 +105,25 @@ router.get('/token', (req: Request, res: Response, next: Function) => {
  */
 router.get('/github', (req: Request, res: Response, next: Function) => {
     let authService = getAuthService();
-    let auth = authService.createClientAuths(req.query.client_id, req.query.redirect_uri);
-    var uri = auth.githubAuth.code.getUri();
-    res.redirect(uri);
+    let clientService = getClientService();
+
+    if (req.query.client_id == null) {
+        res.send('No client id provided.');
+    } else if (req.query.redirect_uri == null) {
+        res.send('No redirect uri provided.');
+    } else {
+        clientService.exist(req.query.client_id).then((result) => {
+            if (result == null) {
+                res.send('Invalid client id provided.');
+            } else {
+                let auth = authService.createClientAuths(req.query.client_id, req.query.redirect_uri);
+                var uri = auth.githubAuth.code.getUri();
+                res.redirect(uri);
+            }
+        }).catch((err: Error) => {
+            res.send(err.message);
+        });
+    }
 });
 
 /**
@@ -119,9 +137,25 @@ router.get('/github', (req: Request, res: Response, next: Function) => {
  */
 router.get('/google', (req: Request, res: Response, next: Function) => {
     let authService = getAuthService();
-    let auth =  authService.createClientAuths(req.query.client_id, req.query.redirect_uri);
-    var uri = auth.googleAuth.code.getUri();
-    res.redirect(uri);
+    let clientService = getClientService();
+
+    if (req.query.client_id == null) {
+        res.send('No client id provided.');
+    } else if (req.query.redirect_uri == null) {
+        res.send('No redirect uri provided.');
+    } else {
+        clientService.exist(req.query.client_id).then((result) => {
+            if (result == null) {
+                res.send('Invalid client id provided.');
+            } else {
+                let auth = authService.createClientAuths(req.query.client_id, req.query.redirect_uri);
+                var uri = auth.googleAuth.code.getUri();
+                res.redirect(uri);
+            }
+        }).catch((err: Error) => {
+            res.send(err.message);
+        });
+    }
 });
 
 /**
@@ -135,7 +169,7 @@ router.get('/google', (req: Request, res: Response, next: Function) => {
  */
 router.get('/github/callback', (req: Request, res: Response, next: Function) => {
     let authService = getAuthService();
-    let auth =  authService.createClientAuths(null, null);
+    let auth = authService.createClientAuths(null, null);
     auth.githubAuth.code.getToken(req.originalUrl)
         .then((user: any) => {
             request({
@@ -170,12 +204,12 @@ router.get('/github/callback', (req: Request, res: Response, next: Function) => 
 router.get('/google/callback', (req: Request, res: Response, next: Function) => {
     let authService = getAuthService();
     let decodedState = authService.decodeState(req.query.state);
-    let auth =  authService.createClientAuths(decodedState.clientId, decodedState.redirectUri);
+    let auth = authService.createClientAuths(decodedState.clientId, decodedState.redirectUri);
     auth.googleAuth.code.getToken(req.originalUrl)
         .then((user: any) => {
             request('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + user.accessToken, (error, response, body) => {
                 if (!error && response.statusCode == 200) {
-                    
+
                     let token = authService.authorize(decodedState.clientId, JSON.parse(body).email);
                     res.redirect(decodedState.redirectUri + '?token=' + token);
                 } else {
@@ -191,6 +225,12 @@ function getAuthService() {
     let credentialsRepository = new CredentialsRepository(config.mongoDb);
     let authService = new AuthService(config.baseUri, config.jwt.secret, config.jwt.issuer, config.oauth, credentialsRepository);
     return authService;
+}
+
+function getClientService() {
+    let clientRepository = new ClientRepository(config.mongoDb);
+    let clientService = new ClientService(clientRepository, config.admin.jwt.issuer, config.admin.jwt.secret);
+    return clientService;
 }
 
 

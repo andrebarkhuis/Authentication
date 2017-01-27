@@ -49,4 +49,18 @@ export class ClientService {
         });
     }
 
+    exist(id) {
+        return new Promise((resolve: Function, reject: Function) => {
+            this.clientRepository.findById(id).then((result: Client) => {
+                if (result == null) {
+                    resolve(false);
+                } else {
+                    resolve(true);
+                }
+            }).catch((err: Error) => {
+                reject(err);
+            });
+        });
+    }
+
 }
