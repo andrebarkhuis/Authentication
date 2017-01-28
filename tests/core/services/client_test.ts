@@ -39,6 +39,29 @@ describe('ClientService', () => {
         });
     });
 
+
+    describe('exist', () => {
+        it('should return true given existing client id', (done) => {
+            let result = clientService.exist('test-client-id')
+                .then((result) => {
+                    expect(result).to.be.true;
+                    done();
+                }).catch((err: Error) => {
+                    done(err);
+                });
+        });
+
+        it('should return false given non-existing client id', (done) => {
+            let result = clientService.exist('test-client-id-invalid')
+                .then((result) => {
+                    expect(result).to.be.false;
+                    done();
+                }).catch((err: Error) => {
+                    done(err);
+                });
+        });
+    });
+
     describe('validate', () => {
         it('should return true given valid client id and valid client secret', (done) => {
             let result = clientService.validate('test-client-id', 'test-client-secret')
