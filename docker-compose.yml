@@ -3,11 +3,11 @@ services:
     api:
         build: api
         ports:
-        - "9009:9009"
+        - "8081:8081"
     web:
         build: web
         ports:
-        - "80:80"
+        - "8082:8082"
         links: 
         - mongo
     mongo:

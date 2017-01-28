@@ -1,26 +1,26 @@
 export var config = {
-    baseUri: 'http://localhost:9009',
+    baseUri: 'http://api.worldofrations.com',
     admin: {
         jwt: {
          issuer: 'DevelopersWorkspace.Authentication.Admin',
-         secret: 'hello_world_admin'   
+         secret: 'uZpCvyHZLn'   
         }
     },
     jwt: {
-        issuer: 'DevelopersWorkspace.Authentication',
-        secret: 'hello_world'
+        issuer: 'WorldOfRations.Authentication',
+        secret: 'ml47Mpyg80'
     },
     web: {
-        uri: 'http://localhost:4300'
+        uri: 'http://authentication.worldofrations.com'
     },
     oauth: {
         github: {
-            clientId: '',
-            clientSecret: ''
+            clientId: '7d1d77e588b7bf51d4ad',
+            clientSecret: 'cc385239fcda30ace0be9330ee0afd9e1f64b52d'
         },
         google: {
-            clientId: '',
-            clientSecret: ''
+            clientId: '749471567348-o8fvlu40jadtumao8cgmjotvr0nibuso.apps.googleusercontent.com',
+            clientSecret: 'zehw7T5OujXvzcgtTgbDzGI9'
         }
     },
     mongoDb: {

@@ -6,7 +6,7 @@
   "scripts": {
     "build-prod": "gulp build & cd ./core & npm run build-prod & cd ./../api & npm run build-prod & cd ./../web & npm run build-prod",
     "clean": "gulp --cwd ./core clean & gulp --cwd ./api clean & gulp --cwd ./tests clean",
-    "start": "concurrently \"gulp --cwd ./core ts & gulp --cwd ./api ts & node ./api/app.js\" \"cd ./web & ng serve --port 4300\""
+    "start": "concurrently \"gulp --cwd ./core ts & gulp --cwd ./api ts & node ./api/app.js\" \"cd ./web & ng serve --port 8082\""
   },
   "repository": {
     "type": "git",
