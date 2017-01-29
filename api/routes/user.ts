@@ -28,24 +28,11 @@ router.post('/create', (req: Request, res: Response, next: Function) => {
     let userService = getUserService();
     let clientService = getClientService();
 
-    clientService.validate(req.get('x-client-id'), req.get('x-client-secret')).then((result) => {
-
-        if (result == true) {
-
-            userService.create(req.get('x-client-id'), req.body.username, req.body.password).then((result) => {
-                res.json({
-                    success: true,
-                    message: null
-                });
-            }).catch((err: Error) => {
-                res.json({
-                    success: false,
-                    message: err.message
-                });
-            });
-        } else {
-            throw Error('Invalid client credentials.');
-        }
+    userService.create(req.get('x-client-id'), req.body.username, req.body.password).then((result) => {
+        res.json({
+            success: true,
+            message: null
+        });
     }).catch((err: Error) => {
         res.json({
             success: false,
