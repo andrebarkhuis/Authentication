@@ -30,16 +30,16 @@ describe('UserService', () => {
 
     describe('create', () => {
         it('should succeed given non-existing username', (done) => {
-            let result = userService.create('test-client-id1', 'test-username1', 'test-password1')
+            userService.create('test-client-id1', 'test-username1', 'test-password1')
                 .then((result) => {
                     done();
                 }).catch((err: Error) => {
                     done(err);
                 });
         });
-        
+
         it('should fail given existing username', (done) => {
-            let result = userService.create('test-client-id', 'test-username', 'test-password')
+            userService.create('test-client-id', 'test-username', 'test-password')
                 .then((result) => {
                     done(new Error('Expected Error'));
                 }).catch((err: Error) => {
@@ -48,8 +48,30 @@ describe('UserService', () => {
         });
 
         it('should succeed given existing username with different clientId', (done) => {
-            let result = userService.create('test-client-id1', 'test-username', 'test-password')
+            userService.create('test-client-id1', 'test-username', 'test-password')
                 .then((result) => {
+                    done();
+                }).catch((err: Error) => {
+                    done(err);
+                });
+        });
+    });
+
+    describe('list', () => {
+        it('should return list given valid client id', (done) => {
+            userService.list('test-client-id')
+                .then((result: any[]) => {
+                    expect(result.length).to.be.eq(1);
+                    done();
+                }).catch((err: Error) => {
+                    done(err);
+                });
+        });
+
+        it('should return empty list given invalid client id', (done) => {
+            userService.list('test-client-id-invalid')
+                .then((result: any[]) => {
+                    expect(result.length).to.be.eq(0);
                     done();
                 }).catch((err: Error) => {
                     done(err);

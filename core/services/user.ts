@@ -23,4 +23,14 @@ export class UserService {
             })
         });
     }
+
+    list(clientId: string) {
+         return new Promise((resolve: Function, reject: Function) => {
+            this.credentialsRepository.list(clientId).then((result) => {
+                resolve(result);
+            }).catch((err :Error) => {
+                reject(err);
+            })
+        });
+    }
 }

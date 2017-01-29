@@ -41,6 +41,31 @@ router.post('/create', (req: Request, res: Response, next: Function) => {
     });
 });
 
+/**
+ * @api {get} /user/list RETRIEVE LIST OF USERS
+ * @apiName UserList
+ * @apiGroup User
+ *
+ * @apiHeader {String} x-client-id Empty.
+ * @apiHeader {String} x-client-secret Empty.
+ *  * 
+ * @apiSuccess {Object[]} response Empty.
+ *
+ */
+router.get('/list', (req: Request, res: Response, next: Function) => {
+    let userService = getUserService();
+    let clientService = getClientService();
+
+    userService.list(req.get('x-client-id')).then((result) => {
+        res.json(result);
+    }).catch((err: Error) => {
+        res.json({
+            success: false,
+            message: err.message
+        });
+    });
+});
+
 function getUserService() {
     let credentialsRepository = new CredentialsRepository(config.mongoDb);
     let userService = new UserService(credentialsRepository);
