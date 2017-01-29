@@ -113,7 +113,7 @@ router.get('/github', (req: Request, res: Response, next: Function) => {
         res.send('No redirect uri provided.');
     } else {
         clientService.exist(req.query.client_id).then((result) => {
-            if (result == null) {
+            if (result == false) {
                 res.send('Invalid client id provided.');
             } else {
                 let auth = authService.createClientAuths(req.query.client_id, req.query.redirect_uri);
@@ -145,7 +145,7 @@ router.get('/google', (req: Request, res: Response, next: Function) => {
         res.send('No redirect uri provided.');
     } else {
         clientService.exist(req.query.client_id).then((result) => {
-            if (result == null) {
+            if (result == false) {
                 res.send('Invalid client id provided.');
             } else {
                 let auth = authService.createClientAuths(req.query.client_id, req.query.redirect_uri);

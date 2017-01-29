@@ -7,7 +7,7 @@
     "docs": "apidoc -i ./routes/ -o docs/",
     "build": "gulp --cwd ./../core ts & gulp ts",
     "build-prod": "gulp --cwd ./../core build & gulp build",
-    "start": "node ./app.js"
+    "start": " gulp --cwd ./../core ts & gulp ts & node ./app.js"
   },
   "author": "Barend Erasmus",
   "license": "MIT",

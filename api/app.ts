@@ -3,6 +3,7 @@ import bodyParser = require('body-parser');
 import authRoute = require('./routes/auth');
 import userRoute = require('./routes/user');
 import clientRoute = require('./routes/client');
+import * as admin from './middleware/admin';
 
 export class WebApi {
     /**
@@ -20,6 +21,7 @@ export class WebApi {
     private configureMiddleware(app: express.Express) {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
+        app.use("/api/user", admin.requiresAdmin);
     }
 
     private configureRoutes(app: express.Express) {
