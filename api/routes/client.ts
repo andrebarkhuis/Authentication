@@ -23,8 +23,6 @@ let router = express.Router();
  */
 router.post('/create', (req: Request, res: Response, next: Function) => {
     let clientService = getClientService();
-
-
     let authorizationHeader = req.get('Authorization');
 
     if (authorizationHeader == null) {
