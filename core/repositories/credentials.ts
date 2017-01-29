@@ -60,9 +60,9 @@ export class CredentialsRepository {
                     collection.findOne({ clientId: clientId, username: username }, (err: Error, result: any) => {
                         if (err) {
                             reject(err);
-                        } else if (result == null){
+                        } else if (result == null) {
                             resolve(null);
-                        }else {
+                        } else {
                             resolve(new Credentials(result.clientId, result.username, result.password));
                         }
                         db.close();
@@ -97,4 +97,22 @@ export class CredentialsRepository {
         });
     }
 
+    list(clientId: string) {
+        return new Promise((resolve: Function, reject: Function) => {
+            let mongoClient = new mongodb.MongoClient();
+            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    var collection = db.collection('credentials');
+                    collection.find({
+                        clientId: clientId
+                    }).toArray(function (err, result) {
+                        resolve(result);
+                        db.close();
+                    });
+                }
+            });
+        });
+    }
 }

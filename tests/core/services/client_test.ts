@@ -30,7 +30,7 @@ describe('ClientService', () => {
 
     describe('create', () => {
         it('should succeed given name', (done) => {
-            let result = clientService.create('test-client-id')
+            clientService.create('test-client-id')
                 .then((result) => {
                     done();
                 }).catch((err: Error) => {
@@ -42,7 +42,7 @@ describe('ClientService', () => {
 
     describe('exist', () => {
         it('should return true given existing client id', (done) => {
-            let result = clientService.exist('test-client-id')
+            clientService.exist('test-client-id')
                 .then((result) => {
                     expect(result).to.be.true;
                     done();
@@ -52,7 +52,7 @@ describe('ClientService', () => {
         });
 
         it('should return false given non-existing client id', (done) => {
-            let result = clientService.exist('test-client-id-invalid')
+            clientService.exist('test-client-id-invalid')
                 .then((result) => {
                     expect(result).to.be.false;
                     done();
@@ -64,7 +64,7 @@ describe('ClientService', () => {
 
     describe('validate', () => {
         it('should return true given valid client id and valid client secret', (done) => {
-            let result = clientService.validate('test-client-id', 'test-client-secret')
+            clientService.validate('test-client-id', 'test-client-secret')
                 .then((result) => {
                     expect(result).to.be.true;
                     done();
@@ -74,7 +74,7 @@ describe('ClientService', () => {
         });
 
         it('should return false given valid client id and invalid client secret', (done) => {
-            let result = clientService.validate('test-client-id', 'test-client-secret-invalid')
+            clientService.validate('test-client-id', 'test-client-secret-invalid')
                 .then((result) => {
                     expect(result).to.be.false;
                     done();
