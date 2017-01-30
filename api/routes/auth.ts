@@ -1,10 +1,17 @@
+// Imports 
 import { Express, Request, Response } from "express";
-import { config } from './../config';
+import request from 'request';
+
+// Imports core services 
 import { AuthService } from './../../core/services/auth';
 import { ClientService } from './../../core/services/client';
+
+// Import core repositories
 import { CredentialsRepository } from './../../core/repositories/credentials';
 import { ClientRepository } from './../../core/repositories/client';
-import * as request from 'request';
+
+// Import configuration file
+import { config } from './../config';
 
 let express = require('express');
 let router = express.Router();
@@ -221,12 +228,15 @@ router.get('/google/callback', (req: Request, res: Response, next: Function) => 
         });
 });
 
+
+// Get Instance of AuthService
 function getAuthService() {
     let credentialsRepository = new CredentialsRepository(config.mongoDb);
     let authService = new AuthService(config.baseUri, config.jwt.secret, config.jwt.issuer, config.oauth, credentialsRepository);
     return authService;
 }
 
+// Get Instance of ClientService
 function getClientService() {
     let clientRepository = new ClientRepository(config.mongoDb);
     let clientService = new ClientService(clientRepository, config.admin.jwt.issuer, config.admin.jwt.secret);

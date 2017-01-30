@@ -4,6 +4,7 @@ var clean = require('gulp-clean');
 
 var serverTS = ["**/*.ts", "!node_modules/**", "!typings/**"];
 
+// Compile typescript files
 gulp.task('ts', ['clean'], function() {
     return gulp
         .src(serverTS, {base: './'})
@@ -11,7 +12,7 @@ gulp.task('ts', ['clean'], function() {
         .pipe(gulp.dest('./'));
 });
 
-
+// Removes compiled js files
 gulp.task('clean', function () {
     return gulp
         .src([

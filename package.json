@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    // Build 'core' and 'api' and 'web' to build directory
     "build-prod": "gulp build & cd ./core & npm run build-prod & cd ./../api & npm run build-prod & cd ./../web & npm run build-prod",
+    // Cleans all compiled js files from projects
     "clean": "gulp --cwd ./core clean & gulp --cwd ./api clean & gulp --cwd ./tests clean",
+    // Builds and starts 'api' and 'web'
     "start": "concurrently \"gulp --cwd ./core ts & gulp --cwd ./api ts & node ./api/app.js\" \"cd ./web & ng serve --port 4300\""
   },
   "repository": {

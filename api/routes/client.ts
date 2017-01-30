@@ -1,9 +1,15 @@
+// Imports 
 import { Express, Request, Response } from "express";
-import { config } from './../config';
+import request from 'request';
+
+// Imports core services 
 import { ClientService } from './../../core/services/client';
-import { CredentialsRepository } from './../../core/repositories/credentials';
+
+// Import core repositories
 import { ClientRepository } from './../../core/repositories/client';
-import * as request from 'request';
+
+// Import configuration file
+import { config } from './../config';
 
 let express = require('express');
 let router = express.Router();
@@ -53,7 +59,7 @@ router.post('/create', (req: Request, res: Response, next: Function) => {
 });
 
 
-
+// Get Instance of ClientService
 function getClientService() {
     let clientRepository = new ClientRepository(config.mongoDb);
     let clientService = new ClientService(clientRepository, config.admin.jwt.issuer, config.admin.jwt.secret);

@@ -1,4 +1,7 @@
+// Imports
 import * as mongodb from 'mongodb';
+
+// Imports models
 import { Credentials } from './../models/credentials';
 
 export class CredentialsRepository {

@@ -1,10 +1,17 @@
+// Imports 
 import { Express, Request, Response } from "express";
-import { config } from './../config';
-import { UserService } from './../../core/services/user';
+import request from 'request';
+
+// Imports core services 
 import { ClientService } from './../../core/services/client';
-import { CredentialsRepository } from './../../core/repositories/credentials';
+import { UserService } from './../../core/services/user';
+
+// Import core repositories
 import { ClientRepository } from './../../core/repositories/client';
-import * as request from 'request';
+import { CredentialsRepository } from './../../core/repositories/credentials';
+
+// Import configuration file
+import { config } from './../config';
 
 let express = require('express');
 let router = express.Router();
@@ -67,13 +74,14 @@ router.get('/list', (req: Request, res: Response, next: Function) => {
     });
 });
 
-
+// Get Instance of UserService
 function getUserService() {
     let credentialsRepository = new CredentialsRepository(config.mongoDb);
     let userService = new UserService(credentialsRepository);
     return userService;
 }
 
+// Get Instance of ClientService
 function getClientService() {
     let clientRepository = new ClientRepository(config.mongoDb);
     let clientService = new ClientService(clientRepository, config.admin.jwt.issuer, config.admin.jwt.secret);

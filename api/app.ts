@@ -1,23 +1,25 @@
-import express = require("express");
-import bodyParser = require('body-parser');
-import authRoute = require('./routes/auth');
-import userRoute = require('./routes/user');
-import clientRoute = require('./routes/client');
-import * as admin from './middleware/admin';
+// Imports
+import express from 'express';
+import bodyParser from 'body-parser';
+
+// Import configuration file
+import { config } from './config';
+
+// Import Routes
+import authRoute from './routes/auth';
+import userRoute from'./routes/user';
+import clientRoute from './routes/client';
+
+// Import middleware
+import admin from './middleware/admin';
 
 export class WebApi {
-    /**
-     * @param app - express application
-     * @param port - port to listen on
-     */
+
     constructor(private app: express.Express, private port: number) {
         this.configureMiddleware(app);
         this.configureRoutes(app);
     }
 
-    /**
-     * @param app - express application
-     */
     private configureMiddleware(app: express.Express) {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,7 +38,7 @@ export class WebApi {
 }
 
 
-let port = 9009;
+let port = config.port;
 let api = new WebApi(express(), port);
 api.run();
-console.info(`listening on ${port}`);
+console.info(`Listening on ${port}`);

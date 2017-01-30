@@ -43,7 +43,7 @@ export class AuthService {
     }
 
     authenticate(clientId: string, username: string, password: string) {
-           return this.credentialsRepository.validate(clientId, username, password);
+        return this.credentialsRepository.validate(clientId, username, password);
     }
 
     createClientAuths(clientId: string, redirectUri: string) {
@@ -56,7 +56,7 @@ export class AuthService {
             accessTokenUri: 'https://github.com/login/oauth/access_token',
             authorizationUri: 'https://github.com/login/oauth/authorize',
             redirectUri: this.baseUri + '/api/auth/github/callback',
-            scopes: 'user:email',
+            scopes: ['user:email'],
             state: encodedState
         }, null);
 
@@ -66,7 +66,7 @@ export class AuthService {
             accessTokenUri: 'https://www.googleapis.com/oauth2/v4/token',
             authorizationUri: 'https://accounts.google.com/o/oauth2/v2/auth',
             redirectUri: this.baseUri + '/api/auth/google/callback',
-            scopes: 'https://www.googleapis.com/auth/userinfo.email',
+            scopes: ['https://www.googleapis.com/auth/userinfo.email'],
             state: encodedState
         }, null);
 

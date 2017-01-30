@@ -1,9 +1,11 @@
-var gulp = require('gulp');
-var ts = require('gulp-typescript');
-var clean = require('gulp-clean');
+// Imports
+import gulp from 'gulp';
+import ts from 'gulp-typescript';
+import clean from 'gulp-clean';
 
-var serverTS = ["**/*.ts", "!node_modules/**", "!typings/**"];
+let serverTS = ["**/*.ts", "!node_modules/**", "!typings/**"];
 
+// Compile typescript files
 gulp.task('ts', ['clean'], function () {
     return gulp
         .src(serverTS, { base: './' })
@@ -11,12 +13,14 @@ gulp.task('ts', ['clean'], function () {
         .pipe(gulp.dest('./'));
 });
 
+// Clean 'api' build directory
 gulp.task('build1', ['clean'], function () {
     return gulp
         .src('./../dist/api/api', { read: false })
         .pipe(clean({force: true}));
 });
 
+// Compile typescript files to 'api' build directory
 gulp.task('build2', ['build1'], function () {
     return gulp
         .src(serverTS, { base: './' })
@@ -24,12 +28,14 @@ gulp.task('build2', ['build1'], function () {
         .pipe(gulp.dest('./../dist/api/api'));
 });
 
+// Copy 'package.json' file to 'api' build directory
 gulp.task('build3', ['build2'], function () {
     return gulp
         .src('./package.json')
         .pipe(gulp.dest('./../dist/api/api'));
 });
 
+// Copy 'Dockerfile' file to 'api' build directory
 gulp.task('build4', ['build3'], function () {
     return gulp
         .src('./Dockerfile')
@@ -37,10 +43,12 @@ gulp.task('build4', ['build3'], function () {
 });
 
 
+// Build to 'api' build directory
 gulp.task('build', ['build4'], function () {
 
 });
 
+// Removes compiled js files
 gulp.task('clean', function () {
     return gulp
         .src([

@@ -1,14 +1,20 @@
 version: '2'
 services:
     api:
+        # Uses Dockerfile in 'api'
         build: api
         ports:
-        - "9009:9009"
+        # Fowards host port to 'api'
+        - "9009:9009",
+        links: 
+        # Links 'mongo' container to 'api'
+        - mongo
     web:
+        # Uses Dockerfile in 'web'
         build: web
         ports:
-        - "80:80"
-        links: 
-        - mongo
+        # Fowards host port to 'web'
+        - "9010:9010"
     mongo:
+        # Uses mongo image from Docker hub
         image: "mongo"

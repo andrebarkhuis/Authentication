@@ -1,12 +1,16 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Identity and User Management API",
   "main": "app.js",
   "scripts": {
+    // Generate 'api' documentation using 'apidocjs'
     "docs": "apidoc -i ./routes/ -o docs/",
+    // Build 'core' and 'api'
     "build": "gulp --cwd ./../core ts & gulp ts",
+    // Build 'core' and 'api' to build directory
     "build-prod": "gulp --cwd ./../core build & gulp build",
+    // Build 'core' and 'api' and start 'api'
     "start": " gulp --cwd ./../core ts & gulp ts & node ./app.js"
   },
   "author": "Barend Erasmus",
@@ -22,7 +26,6 @@
     "gulp-clean": "^0.3.2",
     "gulp-typescript": "^3.1.4",
     "request": "^2.79.0",
-    "swaggerize-express": "^4.0.5",
     "typescript": "^2.1.5",
     "utf8": "^2.1.2",
     "uuid": "^3.0.1"

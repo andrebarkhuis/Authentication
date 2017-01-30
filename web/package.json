@@ -4,10 +4,12 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
+    // Builds angular project to build directory
+    "build-prod": "gulp build & ng build --aot --target=production --output-path=./../dist/web/src",
+    // Cleans build directory
+    "clean": "gulp clean",
     "ng": "ng",
     "start": "ng serve",
-    "build-prod": "gulp build & ng build --aot --target=production --output-path=./../dist/web/src",
-    "clean": "gulp clean",
     "lint": "tslint \"src/**/*.ts\" --project src/tsconfig.json --type-check && tslint \"e2e/**/*.ts\" --project e2e/tsconfig.json --type-check",
     "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false",

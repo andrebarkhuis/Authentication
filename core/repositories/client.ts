@@ -1,4 +1,7 @@
+// Imports
 import * as mongodb from 'mongodb';
+
+// Import models
 import { Client } from './../models/client';
 
 export class ClientRepository {
@@ -72,7 +75,7 @@ export class ClientRepository {
         });
     }
 
-     findById(id: string) {
+    findById(id: string) {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
