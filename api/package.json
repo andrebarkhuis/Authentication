@@ -4,13 +4,9 @@
   "description": "Identity and User Management API",
   "main": "app.js",
   "scripts": {
-    // Generate 'api' documentation using 'apidocjs'
     "docs": "apidoc -i ./routes/ -o docs/",
-    // Build 'core' and 'api'
     "build": "gulp --cwd ./../core ts & gulp ts",
-    // Build 'core' and 'api' to build directory
     "build-prod": "gulp --cwd ./../core build & gulp build",
-    // Build 'core' and 'api' and start 'api'
     "start": " gulp --cwd ./../core ts & gulp ts & node ./app.js"
   },
   "author": "Barend Erasmus",

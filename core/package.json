@@ -4,11 +4,8 @@
   "description": "Identity and User Management API - Core",
   "main": "index.js",
   "scripts": {
-    // Generate 'core' documentation using 'typedocs'
     "docs": "typedoc --target ES6 --module commonjs --exclude \"**/node_modules/**\" --out ./dist ./",
-    // Build 'core'.
     "build": "gulp ts",
-    // Build 'core' to build directory
     "build-prod": "gulp build"
   },
   "author": "Barend Erasmus",
