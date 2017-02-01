@@ -1,9 +1,10 @@
 // Imports
-import gulp from 'gulp';
-import ts from 'gulp-typescript';
-import clean from 'gulp-clean';
+var gulp = require('gulp');
+var clean = require('gulp-clean');
+var ts = require('gulp-typescript');
 
-let serverTS = ["**/*.ts", "!node_modules/**", "!typings/**"];
+
+var serverTS = ["**/*.ts", "!node_modules/**", "!typings/**"];
 
 // Compile typescript files
 gulp.task('ts', ['clean'], function () {
@@ -24,7 +25,7 @@ gulp.task('build1', ['clean'], function () {
 gulp.task('build2', ['build1'], function () {
     return gulp
         .src(serverTS, { base: './' })
-        .pipe(ts({ module: 'commonjs', noImplicitAny: false, allowJs: true, allowUnreachableCode: true }))
+        .pipe(ts({ module: 'commonjs', noImplicitAny: false, allowJs: true, allowUnreachableCode: true}))
         .pipe(gulp.dest('./../dist/api/api'));
 });
 

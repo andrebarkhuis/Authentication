@@ -1,17 +1,20 @@
 // Imports
-import express from 'express';
-import bodyParser from 'body-parser';
+import express = require("express");
+import bodyParser = require("body-parser");
 
 // Import configuration file
 import { config } from './config';
 
 // Import Routes
-import authRoute from './routes/auth';
-import userRoute from'./routes/user';
-import clientRoute from './routes/client';
+import * as authRouter from './routes/auth';
+import * as userRouter from './routes/user';
+import * as clientRouter from './routes/client';
+import * as dataRouter from './routes/data';
+
 
 // Import middleware
-import admin from './middleware/admin';
+import * as admin from './middleware/admin';
+import { CORS } from './middleware/common';
 
 export class WebApi {
 
@@ -24,12 +27,14 @@ export class WebApi {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
         app.use("/api/user", admin.requiresAdmin);
+        app.use(CORS);
     }
 
     private configureRoutes(app: express.Express) {
-        app.use("/api/auth", authRoute);
-        app.use("/api/user", userRoute);
-        app.use("/api/client", clientRoute);
+        app.use("/api/auth", authRouter);
+        app.use("/api/user", userRouter);
+        app.use("/api/client", clientRouter);
+        app.use("/api/data", dataRouter);
     }
 
     public run() {

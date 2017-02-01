@@ -15,13 +15,27 @@ import 'rxjs/add/operator/catch';
 export class ListCredentialsComponent implements OnInit {
 
   credentials: any[];
-  clients: any[];
 
-  selectedClientName: any;
+
+  createNewCredentials = {
+    onChange_Username: () => {
+      this.onChange_CreateNewCredentialsModal_Username();
+    },
+    clients: [],
+    message: null,
+    init: () => {
+      this.load_CreateNewCredentialsModal_Clients();
+    }
+  }
 
   constructor(private http: Http) { }
 
   ngOnInit() {
+
+
+
+    this.createNewCredentials.init();
+
     this.credentials = [
       {
         clientId: 'test-client-id',
@@ -37,12 +51,30 @@ export class ListCredentialsComponent implements OnInit {
       }
     ];
 
-    this.clients = [
-      {
-        id: 'hello',
-        text: 'hello'
-      }
-    ];
+  }
+
+  load_CreateNewCredentialsModal_Clients() {
+    this.http.get(environment.api.uri + '/data/clients')
+      .map((res: Response) => res.json())
+      .subscribe((result: any) => {
+        this.createNewCredentials.clients = result;
+      }, (err: Error) => {
+
+      });
+  }
+
+  onChange_CreateNewCredentialsModal_Username() {
+    this.http.get(environment.api.uri + '/data/validateUsername')
+      .map((res: Response) => res.json())
+      .subscribe((result: any) => {
+        if (result.isValid) {
+          this.createNewCredentials.message = null;
+        } else {
+          this.createNewCredentials.message = result.message;
+        }
+      }, (err: Error) => {
+
+      });
   }
 
 
