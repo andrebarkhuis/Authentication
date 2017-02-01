@@ -6,12 +6,19 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { ListCredentialsComponent } from './list-credentials/list-credentials.component';
 
+import { ModalModule } from 'ng2-bootstrap';
+import { SelectModule } from 'ng2-select';
 
 var router = RouterModule.forRoot([
   {
     path: '',
     component: HomeComponent
+  },
+  {
+    path: 'credentials',
+    component: ListCredentialsComponent
   }
 ]);
 
@@ -19,13 +26,16 @@ var router = RouterModule.forRoot([
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ListCredentialsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     router,
+    ModalModule.forRoot(),
+    SelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
