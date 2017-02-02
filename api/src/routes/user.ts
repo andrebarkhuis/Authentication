@@ -3,17 +3,17 @@ import { Express, Request, Response } from "express";
 import request from 'request';
 
 // Imports core services 
-import { ClientService } from './../../core/services/client';
-import { UserService } from './../../core/services/user';
+import { ClientService } from './../core/services/client';
+import { UserService } from './../core/services/user';
 
 // Import core repositories
-import { ClientRepository } from './../../core/repositories/client';
-import { CredentialsRepository } from './../../core/repositories/credentials';
+import { ClientRepository } from './../core/repositories/client';
+import { CredentialsRepository } from './../core/repositories/credentials';
 
 // Import configuration file
 import { config } from './../config';
 
-let express = require('express');
+import * as express from 'express';
 let router = express.Router();
 
 /**

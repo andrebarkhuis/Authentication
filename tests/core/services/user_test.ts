@@ -1,5 +1,5 @@
-import { UserService } from './../../../core/services/user';
-import { CredentialsRepository } from './../../../core/repositories/credentials';
+import { UserService } from './../../../api/src/core/services/user';
+import { CredentialsRepository } from './../../../api/src/core/repositories/credentials';
 import 'mocha';
 import { expect } from 'chai';
 

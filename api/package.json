@@ -4,10 +4,9 @@
   "description": "Identity and User Management API",
   "main": "app.js",
   "scripts": {
-    "docs": "apidoc -i ./routes/ -o docs/",
-    "build": "gulp --cwd ./../core ts & gulp ts",
-    "build-prod": "gulp --cwd ./../core build & gulp build",
-    "start": " gulp --cwd ./../core ts & gulp ts & node ./app.js"
+    "docs": "apidoc -i ./src/ -o ./docs/",
+    "build": " gulp ts",
+    "start": " gulp ts & node ./dist/app.js"
   },
   "author": "Barend Erasmus",
   "license": "MIT",
@@ -24,6 +23,9 @@
     "request": "^2.79.0",
     "typescript": "^2.1.5",
     "utf8": "^2.1.2",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "jsonwebtoken": "^7.2.1",
+    "mongodb": "^2.2.21",
+    "@types/mongodb": "^2.1.37"
   }
 }

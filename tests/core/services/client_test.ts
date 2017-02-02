@@ -1,5 +1,5 @@
-import { ClientService } from './../../../core/services/client';
-import { ClientRepository } from './../../../core/repositories/client';
+import { ClientService } from './../../../api/src/core/services/client';
+import { ClientRepository } from './../../../api/src/core/repositories/client';
 import 'mocha';
 import { expect } from 'chai';
 
