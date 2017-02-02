@@ -4,7 +4,7 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "build-prod": "gulp build & ng build --aot --target=production --output-path=./../dist/web/src",
+    "build": "ng build --aot --target=production --output-path=./dist",
     "clean": "gulp clean",
     "ng": "ng",
     "start": "ng serve",
