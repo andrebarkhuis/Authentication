@@ -7,10 +7,8 @@ import { config } from './config';
 
 // Import Routes
 import * as authRouter from './routes/auth';
-import * as userRouter from './routes/user';
+import * as credentialsRouter from './routes/credentials';
 import * as clientRouter from './routes/client';
-import * as dataRouter from './routes/data';
-
 
 // Import middleware
 import * as admin from './middleware/admin';
@@ -26,15 +24,15 @@ export class WebApi {
     private configureMiddleware(app: express.Express) {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
-        app.use("/api/user", admin.requiresAdmin);
         app.use(CORS);
+        app.use("/api/credentials", admin.requiresAdmin);
+        
     }
 
     private configureRoutes(app: express.Express) {
         app.use("/api/auth", authRouter);
-        app.use("/api/user", userRouter);
+        app.use("/api/credentials", credentialsRouter);
         app.use("/api/client", clientRouter);
-        app.use("/api/data", dataRouter);
     }
 
     public run() {

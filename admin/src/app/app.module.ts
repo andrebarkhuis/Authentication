@@ -8,6 +8,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ListCredentialsComponent } from './list-credentials/list-credentials.component';
 
+import { CredentialsService } from './services/credentials.service';
+import { ClientService } from './services/client.service';
+
 import { ModalModule } from 'ng2-bootstrap';
 import { SelectModule } from 'ng2-select';
 
@@ -37,7 +40,7 @@ var router = RouterModule.forRoot([
     ModalModule.forRoot(),
     SelectModule
   ],
-  providers: [],
+  providers: [ CredentialsService, ClientService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

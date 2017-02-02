@@ -4,7 +4,7 @@ import request from 'request';
 
 // Imports core services 
 import { ClientService } from './../core/services/client';
-import { UserService } from './../core/services/user';
+import { CredentialsService } from './../core/services/credentials';
 
 // Import core repositories
 import { ClientRepository } from './../core/repositories/client';
@@ -17,9 +17,9 @@ import * as express from 'express';
 let router = express.Router();
 
 /**
- * @api {post} /user/create CREATE A NEW USER
- * @apiName UserCreate
- * @apiGroup User
+ * @api {post} /credentials/create CREATE A NEW CREDENTIALS
+ * @apiName CredentialsCreate
+ * @apiGroup Credentials
  *
  * @apiHeader {String} x-client-id Empty.
  * @apiHeader {String} x-client-secret Empty.
@@ -32,10 +32,10 @@ let router = express.Router();
  *
  */
 router.post('/create', (req: Request, res: Response, next: Function) => {
-    let userService = getUserService();
+    let credentialsService = getCredentialsService();
     let clientService = getClientService();
 
-    userService.create(req.get('x-client-id'), req.body.username, req.body.password).then((result) => {
+    credentialsService.create(req.get('x-client-id'), req.body.username, req.body.password).then((result) => {
         res.json({
             success: true,
             message: null
@@ -50,9 +50,9 @@ router.post('/create', (req: Request, res: Response, next: Function) => {
 
 
 /**
- * @api {get} /user/list RETRIEVE LIST OF USERS
- * @apiName UserList
- * @apiGroup User
+ * @api {get} /credentials/list RETRIEVE LIST OF CREDENTIALS
+ * @apiName CredentialsList
+ * @apiGroup Credentials
  *
  * @apiHeader {String} x-client-id Empty.
  * @apiHeader {String} x-client-secret Empty.
@@ -61,10 +61,10 @@ router.post('/create', (req: Request, res: Response, next: Function) => {
  *
  */
 router.get('/list', (req: Request, res: Response, next: Function) => {
-    let userService = getUserService();
+    let credentialsService = getCredentialsService();
     let clientService = getClientService();
 
-    userService.list(req.get('x-client-id')).then((result) => {
+    credentialsService.list(req.get('x-client-id')).then((result) => {
         res.json(result);
     }).catch((err: Error) => {
         res.json({
@@ -74,11 +74,39 @@ router.get('/list', (req: Request, res: Response, next: Function) => {
     });
 });
 
+
+/**
+ * @api {get} /credentials/validateUsername VALIDATES USERNAME
+ * @apiName CredentialsValidateUsername
+ * @apiGroup Credentials
+ * 
+ * @apiParam {String} username Empty.
+ * @apiParam {String} clientId Empty.
+ * 
+ * @apiSuccess {Boolean} isValid Empty.
+ * @apiSuccess {String} message Empty.
+ *
+ */
+router.get('/validateUsername', (req: Request, res: Response, next: Function) => {
+    let credentialsService = getCredentialsService();
+    credentialsService.exist(req.get('x-client-id'), req.query.username).then((result) => {
+        res.json({
+            isValid: result == true? false : true,
+            message: result == true? 'Username already exist' : null
+        });
+    }).catch((err: Error) => {
+        res.json({
+            success: false,
+            message: err.message
+        });
+    });
+});
+
 // Get Instance of UserService
-function getUserService() {
+function getCredentialsService() {
     let credentialsRepository = new CredentialsRepository(config.mongoDb);
-    let userService = new UserService(credentialsRepository);
-    return userService;
+    let credentialsService = new CredentialsService(credentialsRepository);
+    return credentialsService;
 }
 
 // Get Instance of ClientService

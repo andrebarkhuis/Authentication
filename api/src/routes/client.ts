@@ -29,33 +29,33 @@ let router = express.Router();
  */
 router.post('/create', (req: Request, res: Response, next: Function) => {
     let clientService = getClientService();
-    let authorizationHeader = req.get('Authorization');
+    // let authorizationHeader = req.get('Authorization');
 
-    if (authorizationHeader == null) {
+    // if (authorizationHeader == null) {
+    //     res.json({
+    //         success: false,
+    //         message: 'No jwt token provided'
+    //     });
+    // } else {
+    // let jwt = authorizationHeader.split(' ')[1];
+    // let isValid = clientService.validateJSONWebToken(jwt);
+
+    // if (isValid) {
+    clientService.create(req.body.name).then((result: any) => {
+        res.json(result);
+    }).catch((err: Error) => {
         res.json({
             success: false,
-            message: 'No jwt token provided'
+            message: err.message
         });
-    } else {
-        let jwt = authorizationHeader.split(' ')[1];
-        let isValid = clientService.validateJSONWebToken(jwt);
-
-        if (isValid) {
-            clientService.create(req.body.name).then((result: any) => {
-                res.json(result);
-            }).catch((err: Error) => {
-                res.json({
-                    success: false,
-                    message: err.message
-                });
-            });
-        } else {
-            res.json({
-                success: false,
-                message: 'Invalid jwt token'
-            });
-        }
-    }
+    });
+    // } else {
+    //     res.json({
+    //         success: false,
+    //         message: 'Invalid jwt token'
+    //     });
+    // }
+    //}
 });
 
 

@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { CredentialsService } from './../services/credentials.service';
+import { ClientService } from './../services/client.service';
 import { environment } from './../../environments/environment';
-
-// Import RxJs required methods
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-
 
 @Component({
   selector: 'app-list-credentials',
@@ -16,56 +12,64 @@ export class ListCredentialsComponent implements OnInit {
 
   credentials: any[];
 
+  createNewCredentialsModal = null;
 
   createNewCredentials = {
+    username: null,
+    message: null,
     onChange_Username: () => {
       this.onChange_CreateNewCredentialsModal_Username();
     },
-    clients: [],
-    message: null,
-    init: () => {
-      this.load_CreateNewCredentialsModal_Clients();
-    }
+    onClick_Create: () => {
+      this.onClick_CreateNewCredentialsModal_Create();
+    },
   }
 
-  constructor(private http: Http) { }
+  constructor(private credentialsService: CredentialsService, private clientService: ClientService) { }
 
   ngOnInit() {
-
-
-
-    this.createNewCredentials.init();
-
-    this.credentials = [
-      {
-        clientId: 'test-client-id',
-        username: 'test-username'
-      },
-      {
-        clientId: 'test-client-id',
-        username: 'test-username'
-      },
-      {
-        clientId: 'test-client-id',
-        username: 'test-username'
-      }
-    ];
-
+    this.load_credentials();
   }
 
-  load_CreateNewCredentialsModal_Clients() {
-    this.http.get(environment.api.uri + '/data/clients')
-      .map((res: Response) => res.json())
-      .subscribe((result: any) => {
-        this.createNewCredentials.clients = result;
-      }, (err: Error) => {
+  bindModal(modal) {
+    this.createNewCredentialsModal = modal;
+  }
 
+  load_credentials() {
+    this.credentialsService.list().subscribe((result: any) => {
+      this.credentials = result;
+    }, (err: Error) => {
+
+    });
+  }
+
+  clear_createNewCredentials() {
+    this.createNewCredentials.message = null;
+    this.createNewCredentials.username = null;
+  }
+
+  onClick_CreateNewCredentialsModal_Create() {
+    this.credentialsService.validateUsername(this.createNewCredentials.username)
+      .subscribe((result: any) => {
+        if (result.isValid) {
+          this.credentialsService.create(this.createNewCredentials.username, 'password')
+            .subscribe((result: any) => {
+              this.load_credentials();
+              this.clear_createNewCredentials();
+              this.createNewCredentialsModal.hide();
+            }, (err: Error) => {
+              this.createNewCredentials.message = err.message;
+            });
+        } else {
+          this.createNewCredentials.message = result.message;
+        }
+      }, (err: Error) => {
+        this.createNewCredentials.message = err.message;
       });
   }
 
   onChange_CreateNewCredentialsModal_Username() {
-    this.http.get(environment.api.uri + '/data/validateUsername')
-      .map((res: Response) => res.json())
+    this.credentialsService.validateUsername(this.createNewCredentials.username)
       .subscribe((result: any) => {
         if (result.isValid) {
           this.createNewCredentials.message = null;
@@ -73,9 +77,7 @@ export class ListCredentialsComponent implements OnInit {
           this.createNewCredentials.message = result.message;
         }
       }, (err: Error) => {
-
+        this.createNewCredentials.message = err.message;
       });
   }
-
-
 }
