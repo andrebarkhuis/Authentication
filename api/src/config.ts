@@ -35,4 +35,11 @@ export var config = {
          secret: 'hello_world_admin'   
         }
     },
+    // Super Admin Site Configurations
+    superadmin: {
+        jwt: {
+         issuer: 'DevelopersWorkspace.Authentication.SuperAdmin',
+         secret: 'hello_world_superadmin'   
+        }
+    },
 }

@@ -38,7 +38,7 @@ router.get('/authorize', (req: Request, res: Response, next: Function) => {
 
         res.redirect(config.web.uri + '?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&scope=' + scope + '&response_type=' + responseType);
     } else {
-        res.send('Reponse Type not supported');
+        res.status(400).send('Reponse Type not supported');
     }
 });
 
@@ -89,19 +89,19 @@ router.get('/token', (req: Request, res: Response, next: Function) => {
                     token: token
                 });
             } else {
-                res.json({
+                res.status(401).json({
                     message: 'Invalid Credentials'
                 });
             }
         }).catch((err: Error) => {
-            res.json({
+            res.status(500).json({
                 message: err.message
             });
         });
 
 
     } else {
-        res.json({
+        res.status(400).json({
             message: 'Invalid Grant Type'
         });
     }
@@ -121,20 +121,20 @@ router.get('/github', (req: Request, res: Response, next: Function) => {
     let clientService = getClientService();
 
     if (req.query.client_id == null) {
-        res.send('No client id provided.');
+        res.status(400).send('No client id provided.');
     } else if (req.query.redirect_uri == null) {
-        res.send('No redirect uri provided.');
+        res.status(400).send('No redirect uri provided.');
     } else {
         clientService.exist(req.query.client_id).then((result) => {
             if (result == false) {
-                res.send('Invalid client id provided.');
+                res.status(400).send('Invalid client id provided.');
             } else {
                 let auth = authService.createClientAuths(req.query.client_id, req.query.redirect_uri);
                 var uri = auth.githubAuth.code.getUri();
                 res.redirect(uri);
             }
         }).catch((err: Error) => {
-            res.send(err.message);
+            res.status(500).send(err.message);
         });
     }
 });
@@ -153,20 +153,20 @@ router.get('/google', (req: Request, res: Response, next: Function) => {
     let clientService = getClientService();
 
     if (req.query.client_id == null) {
-        res.send('No client id provided.');
+        res.status(400).send('No client id provided.');
     } else if (req.query.redirect_uri == null) {
-        res.send('No redirect uri provided.');
+        res.status(400).send('No redirect uri provided.');
     } else {
         clientService.exist(req.query.client_id).then((result) => {
             if (result == false) {
-                res.send('Invalid client id provided.');
+                res.status(400).send('Invalid client id provided.');
             } else {
                 let auth = authService.createClientAuths(req.query.client_id, req.query.redirect_uri);
                 var uri = auth.googleAuth.code.getUri();
                 res.redirect(uri);
             }
         }).catch((err: Error) => {
-            res.send(err.message);
+            res.status(500).send(err.message);
         });
     }
 });
@@ -196,11 +196,11 @@ router.get('/github/callback', (req: Request, res: Response, next: Function) => 
                     let token = authService.authorize(decodedState.clientId, JSON.parse(body).email);
                     res.redirect(decodedState.redirectUri + '?token=' + token);
                 } else {
-                    return res.send('An Error Occurred');
+                    return res.status(500).send('An Error Occurred');
                 }
             });
         }).catch((err: Error) => {
-            return res.send(err.message);
+            return res.status(500).send(err.message);
         });
 });
 
@@ -226,11 +226,11 @@ router.get('/google/callback', (req: Request, res: Response, next: Function) => 
                     let token = authService.authorize(decodedState.clientId, JSON.parse(body).email);
                     res.redirect(decodedState.redirectUri + '?token=' + token);
                 } else {
-                    return res.send('An Error Occurred');
+                    return res.status(500).send('An Error Occurred');
                 }
             });
         }).catch((err: Error) => {
-            return res.send(err.message);
+            return res.status(500).send(err.message);
         });
 });
 

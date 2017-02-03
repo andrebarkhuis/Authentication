@@ -41,7 +41,7 @@ router.post('/create', (req: Request, res: Response, next: Function) => {
             message: null
         });
     }).catch((err: Error) => {
-        res.json({
+        res.status(500).json({
             success: false,
             message: err.message
         });
@@ -67,7 +67,7 @@ router.get('/list', (req: Request, res: Response, next: Function) => {
     credentialsService.list(req.get('x-client-id')).then((result) => {
         res.json(result);
     }).catch((err: Error) => {
-        res.json({
+        res.status(500).json({
             success: false,
             message: err.message
         });
@@ -95,7 +95,7 @@ router.get('/validateUsername', (req: Request, res: Response, next: Function) =>
             message: result == true? 'Username already exist' : null
         });
     }).catch((err: Error) => {
-        res.json({
+        res.status(500).json({
             success: false,
             message: err.message
         });

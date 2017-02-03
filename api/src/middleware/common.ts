@@ -10,3 +10,13 @@ export function CORS(req: Request, res: Response, next: Function) {
 
     next();
 }
+
+// Adds headers to enable CORS
+export function allowHead(req: Request, res: Response, next: Function) {
+
+    if (req.method == 'HEAD') {
+        res.send();
+    } else {
+        next();
+    }
+}

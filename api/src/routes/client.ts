@@ -29,40 +29,21 @@ let router = express.Router();
  */
 router.post('/create', (req: Request, res: Response, next: Function) => {
     let clientService = getClientService();
-    // let authorizationHeader = req.get('Authorization');
-
-    // if (authorizationHeader == null) {
-    //     res.json({
-    //         success: false,
-    //         message: 'No jwt token provided'
-    //     });
-    // } else {
-    // let jwt = authorizationHeader.split(' ')[1];
-    // let isValid = clientService.validateJSONWebToken(jwt);
-
-    // if (isValid) {
     clientService.create(req.body.name).then((result: any) => {
         res.json(result);
     }).catch((err: Error) => {
-        res.json({
+        res.status(500).json({
             success: false,
             message: err.message
         });
     });
-    // } else {
-    //     res.json({
-    //         success: false,
-    //         message: 'Invalid jwt token'
-    //     });
-    // }
-    //}
 });
 
 
 // Get Instance of ClientService
 function getClientService() {
     let clientRepository = new ClientRepository(config.mongoDb);
-    let clientService = new ClientService(clientRepository, config.admin.jwt.issuer, config.admin.jwt.secret);
+    let clientService = new ClientService(clientRepository, config.superadmin.jwt.issuer, config.superadmin.jwt.secret);
     return clientService;
 }
 

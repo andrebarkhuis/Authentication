@@ -11,8 +11,8 @@ import * as credentialsRouter from './routes/credentials';
 import * as clientRouter from './routes/client';
 
 // Import middleware
-import * as admin from './middleware/admin';
-import { CORS } from './middleware/common';
+import {requiresAdmin, requiresSuperAdmin } from './middleware/admin';
+import { CORS, allowHead } from './middleware/common';
 
 export class WebApi {
 
@@ -25,7 +25,9 @@ export class WebApi {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
         app.use(CORS);
-        app.use("/api/credentials", admin.requiresAdmin);
+        app.use(allowHead);
+        app.use("/api/credentials", requiresAdmin);
+        app.use("/api/client", requiresSuperAdmin);
         
     }
 
