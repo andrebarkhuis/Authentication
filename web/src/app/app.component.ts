@@ -29,7 +29,7 @@ export class AppComponent {
     let responseType = this.getParameterByName('response_type');
 
     if (responseType == 'token') {
-      this.http.get(environment.api.uri + '/auth/token?grant_type=password&username=' + this.username + '&password=' + this.password + '&clientId=' + clientId)
+      this.http.get(environment.api.uri + '/auth/token?grant_type=password&username=' + this.username + '&password=' + this.password + '&client_id=' + clientId)
         .map((res: Response) => res.json())
         .subscribe((result: any) => {
           if (result.token == null) {

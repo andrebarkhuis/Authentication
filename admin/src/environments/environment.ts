@@ -8,6 +8,6 @@ export const environment = {
   api: {
     uri: 'http://localhost:9009/api'
   },
-  clientId: '852c700c-d072-4ffb-a3a3-aae6bd5e53f8',
-  clientSecret: '0ebfe548-f599-4296-b0ab-787fba3e1668'
+  clientId: '9c9af7e9-87f0-4b31-95d6-af0064c91dd9',
+  clientSecret: 'f59fea75-9588-4cb4-852b-c9f2b8c75d8f'
 };

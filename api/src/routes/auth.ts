@@ -82,18 +82,24 @@ router.get('/token', (req: Request, res: Response, next: Function) => {
     let clientId = req.query.client_id;
 
     if (grantType == 'password') {
-        var isValid = authService.authenticate(clientId, username, password);
+        authService.authenticate(clientId, username, password).then((isValid) => {
+            if (isValid) {
+                let token = authService.authorize(clientId, username);
+                res.json({
+                    token: token
+                });
+            } else {
+                res.json({
+                    message: 'Invalid Credentials'
+                });
+            }
+        }).catch((err: Error) => {
+            res.json({
+                message: err.message
+            });
+        });
 
-        if (isValid) {
-            let token = authService.authorize(clientId, username);
-            res.json({
-                token: token
-            });
-        } else {
-            res.json({
-                message: 'Invalid Credentials'
-            });
-        }
+
     } else {
         res.json({
             message: 'Invalid Grant Type'
