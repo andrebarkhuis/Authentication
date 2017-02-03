@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "docs": "apidoc -i ./src/ -o ./docs/",
-    "build": " gulp ts",
+    "build": " gulp build",
     "start": " gulp ts & node ./src/app.js"
   },
   "author": "Barend Erasmus",

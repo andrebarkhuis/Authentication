@@ -5,7 +5,7 @@ services:
         build: api
         ports:
         # Fowards host port to 'api'
-        - "9009:9009",
+        - "9009:9009"
         links: 
         # Links 'mongo' container to 'api'
         - mongo
@@ -14,7 +14,13 @@ services:
         build: web
         ports:
         # Fowards host port to 'web'
-        - "9010:9010"
+        - "9010:80"
+    admin:
+        # Uses Dockerfile in 'admin'
+        build: admin
+        ports:
+        # Fowards host port to 'admin'
+        - "9011:80"
     mongo:
         # Uses mongo image from Docker hub
         image: "mongo"
