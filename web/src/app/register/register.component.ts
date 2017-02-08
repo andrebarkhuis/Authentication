@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
     }
 
     if (responseType == 'token') {
-      this.http.post(environment.api.uri + '/credentials', {
+      this.http.post(environment.api.uri + '/credentials/register', {
         clientId: clientId,
         username: this.username,
         emailAddress: this.emailAddress,

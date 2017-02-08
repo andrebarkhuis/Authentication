@@ -121,7 +121,7 @@ router.get('/validateUsername', (req: Request, res: Response, next: Function) =>
 router.post('/register', (req: Request, res: Response, next: Function) => {
     let credentialsService = getCredentialsService();
     let clientService = getClientService();
-
+    
     credentialsService.create(req.body.clientId, req.body.username, req.body.emailAddress, req.body.password).then((result) => {
         res.json({
             success: true,

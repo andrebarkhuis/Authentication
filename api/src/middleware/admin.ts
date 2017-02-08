@@ -12,6 +12,12 @@ import { config } from './../config';
 
 
 export function requiresAdmin(req: Request, res: Response, next: Function) {
+
+    if (req.originalUrl == '/api/credentials/register') {
+        next();
+        return;
+    }
+
     let clientService = getAdminClientService();
     if (req.get('x-client-id') != null && req.get('x-client-secret') != null) {
         clientService.validate(req.get('x-client-id'), req.get('x-client-secret')).then((result) => {
