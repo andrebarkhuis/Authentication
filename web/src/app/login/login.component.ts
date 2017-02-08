@@ -18,9 +18,10 @@ export class LoginComponent implements OnInit {
   password: string;
   message: string;
   appSettings: any = environment.appSettings;
+  queryString: any = window.location.search;
 
   constructor(private http: Http) {
-    
+    console.log(this.queryString);
   }
 
   ngOnInit() {
