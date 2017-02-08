@@ -1,7 +1,12 @@
-import { Client } from './../models/client';
+// Imports
 import * as uuid from 'uuid';
-import { ClientRepository } from './../repositories/client';
 import * as jwt from 'jsonwebtoken';
+
+// Imports models
+import { Client } from './../models/client';
+
+// Imports repositories
+import { ClientRepository } from './../repositories/client';
 
 export class ClientService {
 

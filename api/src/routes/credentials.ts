@@ -2,15 +2,15 @@
 import { Express, Request, Response } from "express";
 import request from 'request';
 
-// Imports core services 
+// Imports services 
 import { ClientService } from './../core/services/client';
 import { CredentialsService } from './../core/services/credentials';
 
-// Import core repositories
+// Imports repositories
 import { ClientRepository } from './../core/repositories/client';
 import { CredentialsRepository } from './../core/repositories/credentials';
 
-// Import configuration file
+// Imports configuration file
 import { config } from './../config';
 
 import * as express from 'express';

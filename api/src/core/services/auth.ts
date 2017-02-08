@@ -1,8 +1,11 @@
+// Imports
 import * as uuid from 'uuid';
 import * as jwt from 'jsonwebtoken';
 import * as base64 from 'base-64';
 import * as utf8 from 'utf8';
 import * as clientOAuth2 from 'client-oauth2';
+
+// Imports repositories
 import { CredentialsRepository } from './../repositories/credentials';
 
 export class AuthService {

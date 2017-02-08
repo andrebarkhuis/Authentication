@@ -1,7 +1,10 @@
+// Imports
 import { Component, OnInit } from '@angular/core';
+import { environment } from './../../environments/environment';
+
+// Imports services
 import { CredentialsService } from './../services/credentials.service';
 import { ClientService } from './../services/client.service';
-import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-list-credentials',

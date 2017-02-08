@@ -5,7 +5,7 @@ import bodyParser = require("body-parser");
 // Imports configuration file
 import { config } from './config';
 
-// Imports Routes
+// Imports routes
 import * as authRouter from './routes/auth';
 import * as credentialsRouter from './routes/credentials';
 import * as clientRouter from './routes/client';

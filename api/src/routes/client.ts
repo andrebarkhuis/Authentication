@@ -1,17 +1,18 @@
 // Imports 
 import { Express, Request, Response } from "express";
+import * as express from 'express';
 import request from 'request';
 
 // Imports core services 
 import { ClientService } from './../core/services/client';
 
-// Import core repositories
+// Imports repositories
 import { ClientRepository } from './../core/repositories/client';
 
-// Import configuration file
+// Imports configuration file
 import { config } from './../config';
 
-import * as express from 'express';
+
 let router = express.Router();
 
 /**

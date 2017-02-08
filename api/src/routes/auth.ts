@@ -6,7 +6,7 @@ import request from 'request';
 import { AuthService } from './../core/services/auth';
 import { ClientService } from './../core/services/client';
 
-// Import core repositories
+// Imports repositories
 import { CredentialsRepository } from './../core/repositories/credentials';
 import { ClientRepository } from './../core/repositories/client';
 

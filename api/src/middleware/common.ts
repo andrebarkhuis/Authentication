@@ -1,4 +1,4 @@
-// Import
+// Imports
 import { Express, Request, Response } from "express";
 import * as express from 'express';
 
