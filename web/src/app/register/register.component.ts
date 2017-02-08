@@ -65,11 +65,7 @@ export class RegisterComponent implements OnInit {
       })
         .map((res: Response) => res.json())
         .subscribe((result: any) => {
-          if (result.token == null) {
-            this.message = result.message;
-          } else {
-            window.location.href = this.getParameterByName('redirect_uri') + '?token=' + result.token;
-          }
+          window.location.href = '/login' + this.queryString;
         }, (err: any) => {
           if (err instanceof Error) {
             this.message = err.message;
