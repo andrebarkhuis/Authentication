@@ -75,7 +75,7 @@ export class CredentialsRepository {
         });
     }
 
-    create(clientId: string, username: string, password: string) {
+    create(clientId: string, username: string, emailAddress: string, password: string) {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
@@ -86,6 +86,7 @@ export class CredentialsRepository {
                     collection.insertOne({
                         clientId: clientId,
                         username: username,
+                        emailAddress: emailAddress,
                         password: password
                     }, (err: Error, result: any) => {
                         if (err) {

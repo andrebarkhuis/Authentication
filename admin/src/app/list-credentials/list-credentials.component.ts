@@ -19,6 +19,7 @@ export class ListCredentialsComponent implements OnInit {
 
   createNewCredentials = {
     username: null,
+    emailAddress: null,
     message: null,
     onChange_Username: () => {
       this.onChange_CreateNewCredentialsModal_Username();
@@ -52,10 +53,22 @@ export class ListCredentialsComponent implements OnInit {
   }
 
   onClick_CreateNewCredentialsModal_Create() {
+
+    if (this.createNewCredentials.username == null) {
+      this.createNewCredentials.message = 'Username cannot be empty';
+      return;
+    }
+
+    if (this.createNewCredentials.emailAddress == null) {
+      this.createNewCredentials.message = 'Email Address cannot be empty';
+      return;
+    }
+
+
     this.credentialsService.validateUsername(this.createNewCredentials.username)
       .subscribe((result: any) => {
         if (result.isValid) {
-          this.credentialsService.create(this.createNewCredentials.username, 'password')
+          this.credentialsService.create(this.createNewCredentials.username, this.createNewCredentials.emailAddress, 'password')
             .subscribe((result: any) => {
               this.load_credentials();
               this.clear_createNewCredentials();

@@ -13,7 +13,7 @@ import { config } from './../config';
 
 export function requiresAdmin(req: Request, res: Response, next: Function) {
     let clientService = getAdminClientService();
-    if (req.get('x-client-id') != null && req.get('x-client-secret' != null)) {
+    if (req.get('x-client-id') != null && req.get('x-client-secret') != null) {
         clientService.validate(req.get('x-client-id'), req.get('x-client-secret')).then((result) => {
             if (result == false) {
                 res.status(401).json({
@@ -59,7 +59,7 @@ export function requiresAdmin(req: Request, res: Response, next: Function) {
 
 export function requiresSuperAdmin(req: Request, res: Response, next: Function) {
     let clientService = getSuperAdminClientService();
-    if (req.get('x-client-id') != null && req.get('x-client-secret' != null)) {
+    if (req.get('x-client-id') != null && req.get('x-client-secret') != null) {
         clientService.validate(req.get('x-client-id'), req.get('x-client-secret')).then((result) => {
             if (result == false) {
                 res.status(401).json({

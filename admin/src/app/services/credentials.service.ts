@@ -28,15 +28,17 @@ export class CredentialsService {
     }).map((res: Response) => res.json());
   }
 
-  public create(username: string, password: string) {
+  public create(username: string, emailAddress: string, password: string) {
     let headers = this.getCredentialsHeaders();
     return this.http.post(environment.api.uri + '/credentials/create', {
       username: username,
+      emailAddress: emailAddress,
       password: password
     }, {
         headers: headers
       }).map((res: Response) => res.json());
   }
+  
 
   private getCredentialsHeaders() {
     let headers = new Headers();

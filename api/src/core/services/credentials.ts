@@ -7,11 +7,11 @@ export class CredentialsService {
 
     }
 
-    create(clientId: string, username: string, password: string) {
+    create(clientId: string, username: string, emailAddress: string, password: string) {
         return new Promise((resolve: Function, reject: Function) => {
             this.credentialsRepository.findByUsername(clientId, username).then((result) => {
                 if (result == null) {
-                    this.credentialsRepository.create(clientId, username, password).then((result) => {
+                    this.credentialsRepository.create(clientId, username, emailAddress, password).then((result) => {
                         resolve();
                     }).catch((err: Error) => {
                         reject(err);

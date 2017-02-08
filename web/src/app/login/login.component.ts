@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   queryString: any = window.location.search;
 
   constructor(private http: Http) {
-    console.log(this.queryString);
+
   }
 
   ngOnInit() {
@@ -45,8 +45,14 @@ export class LoginComponent implements OnInit {
           } else {
             window.location.href = this.getParameterByName('redirect_uri') + '?token=' + result.token;
           }
-        }, (err: Error) => {
-          this.message = err.message;
+        }, (err: any) => {
+          if (err instanceof Error) {
+            this.message = err.message;
+          } else if (err instanceof Response) {
+            this.message = err.json().message;
+          }else {
+            this.message = 'Unexpected error occurred'
+          }
         });
     } else {
       this.message = 'Response Type not supported';

@@ -18,7 +18,7 @@ describe('UserService', () => {
         credentialsService = new CredentialsService(credentialsRepository);
 
         credentialsRepository.clear().then((result) => {
-            credentialsRepository.create('test-client-id', 'test-username', 'test-password').then((result) => {
+            credentialsRepository.create('test-client-id', 'test-username', 'test-email-address', 'test-password').then((result) => {
                 done();
             }).catch((err: Error) => {
                 done(err);
@@ -30,7 +30,7 @@ describe('UserService', () => {
 
     describe('create', () => {
         it('should succeed given non-existing username', (done) => {
-            credentialsService.create('test-client-id1', 'test-username1', 'test-password1')
+            credentialsService.create('test-client-id1', 'test-username1', 'test-email-address', 'test-password1')
                 .then((result) => {
                     done();
                 }).catch((err: Error) => {
@@ -39,7 +39,7 @@ describe('UserService', () => {
         });
 
         it('should fail given existing username', (done) => {
-            credentialsService.create('test-client-id', 'test-username', 'test-password')
+            credentialsService.create('test-client-id', 'test-username', 'test-email-address', 'test-password')
                 .then((result) => {
                     done(new Error('Expected Error'));
                 }).catch((err: Error) => {
@@ -48,7 +48,7 @@ describe('UserService', () => {
         });
 
         it('should succeed given existing username with different clientId', (done) => {
-            credentialsService.create('test-client-id1', 'test-username', 'test-password')
+            credentialsService.create('test-client-id1', 'test-username', 'test-email-address', 'test-password')
                 .then((result) => {
                     done();
                 }).catch((err: Error) => {

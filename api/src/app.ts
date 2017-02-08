@@ -12,7 +12,7 @@ import * as clientRouter from './routes/client';
 
 // Imports middleware
 import {requiresAdmin, requiresSuperAdmin } from './middleware/admin';
-import { CORS, allowHead } from './middleware/common';
+import { CORS, allowHeadAndOptions } from './middleware/common';
 
 // Imports repositories
 import { ClientRepository } from './core/repositories/client';
@@ -45,7 +45,7 @@ export class WebApi {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
         app.use(CORS);
-        app.use(allowHead);
+        app.use(allowHeadAndOptions);
         app.use("/api/credentials", requiresAdmin);
         app.use("/api/client", requiresSuperAdmin);
         

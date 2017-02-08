@@ -25,6 +25,7 @@ let router = express.Router();
  * @apiHeader {String} x-client-secret Empty.
  * 
  * @apiParam {String} username Empty.
+ * @apiParam {String} emailAddress Empty.
  * @apiParam {String} password Empty.
  * 
  * @apiSuccess {Boolean} success Empty.
@@ -35,7 +36,7 @@ router.post('/create', (req: Request, res: Response, next: Function) => {
     let credentialsService = getCredentialsService();
     let clientService = getClientService();
 
-    credentialsService.create(req.get('x-client-id'), req.body.username, req.body.password).then((result) => {
+    credentialsService.create(req.get('x-client-id'), req.body.username, req.body.username, req.body.password).then((result) => {
         res.json({
             success: true,
             message: null
@@ -88,6 +89,7 @@ router.get('/list', (req: Request, res: Response, next: Function) => {
  *
  */
 router.get('/validateUsername', (req: Request, res: Response, next: Function) => {
+    
     let credentialsService = getCredentialsService();
     credentialsService.exist(req.get('x-client-id'), req.query.username).then((result) => {
         res.json({
@@ -101,6 +103,38 @@ router.get('/validateUsername', (req: Request, res: Response, next: Function) =>
         });
     });
 });
+
+/**
+ * @api {post} /credentials/register CREATE A NEW CREDENTIALS
+ * @apiName CredentialsRegister
+ * @apiGroup Credentials
+ * 
+ * @apiParam {String} clientId Empty.
+ * @apiParam {String} username Empty.
+ * @apiParam {String} emailAddress Empty.
+ * @apiParam {String} password Empty.
+ * 
+ * @apiSuccess {Boolean} success Empty.
+ * @apiSuccess {String} message Empty.
+ *
+ */
+router.post('/register', (req: Request, res: Response, next: Function) => {
+    let credentialsService = getCredentialsService();
+    let clientService = getClientService();
+
+    credentialsService.create(req.body.clientId, req.body.username, req.body.emailAddress, req.body.password).then((result) => {
+        res.json({
+            success: true,
+            message: null
+        });
+    }).catch((err: Error) => {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    });
+});
+
 
 // Get Instance of UserService
 function getCredentialsService() {

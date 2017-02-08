@@ -27,7 +27,7 @@ describe('AuthService', () => {
         }, credentialsRepository);
 
         credentialsRepository.clear().then((result) => {
-            credentialsRepository.create('test-client-id', 'test-username', 'test-password').then((result) => {
+            credentialsRepository.create('test-client-id', 'test-username', 'test-email-address', 'test-password').then((result) => {
                 done();
             }).catch((err: Error) => {
                 done(err);
