@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit {
 
   }
 
-
   public login() {
 
     this.message = null;
