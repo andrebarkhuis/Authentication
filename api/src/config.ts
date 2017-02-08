@@ -10,7 +10,7 @@ export var config = {
     },
     // Configurations for Web UI
     web: {
-        uri: 'http://localhost:4300'
+        uri: 'http://localhost:4200'
     },
     // Configurations for supported OAuth2 of api
     oauth: {
@@ -31,15 +31,21 @@ export var config = {
     // Admin Site Configurations
     admin: {
         jwt: {
-         issuer: 'DevelopersWorkspace.Authentication.Admin',
-         secret: 'hello_world_admin'   
+            issuer: 'DevelopersWorkspace.Authentication.Admin',
+            secret: 'hello_world_admin'
         }
     },
     // Super Admin Site Configurations
     superadmin: {
         jwt: {
-         issuer: 'DevelopersWorkspace.Authentication.SuperAdmin',
-         secret: 'hello_world_superadmin'   
+            issuer: 'DevelopersWorkspace.Authentication.SuperAdmin',
+            secret: 'hello_world_superadmin'
         }
     },
+    // Default client configurations
+    defaultClientId: '87025144872751362692',
+    defaultClientSecret: '69447957834022926586',
+    appSettings: {
+        allowSelfRegistration: true
+    }
 }

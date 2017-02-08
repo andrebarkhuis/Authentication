@@ -2,23 +2,43 @@
 import express = require("express");
 import bodyParser = require("body-parser");
 
-// Import configuration file
+// Imports configuration file
 import { config } from './config';
 
-// Import Routes
+// Imports Routes
 import * as authRouter from './routes/auth';
 import * as credentialsRouter from './routes/credentials';
 import * as clientRouter from './routes/client';
 
-// Import middleware
+// Imports middleware
 import {requiresAdmin, requiresSuperAdmin } from './middleware/admin';
 import { CORS, allowHead } from './middleware/common';
+
+// Imports repositories
+import { ClientRepository } from './core/repositories/client';
 
 export class WebApi {
 
     constructor(private app: express.Express, private port: number) {
         this.configureMiddleware(app);
         this.configureRoutes(app);
+        this.init();
+    }
+
+    private init() {
+        let clientRepository = new ClientRepository(config.mongoDb);
+
+        clientRepository.findById(config.defaultClientId).then((client) => {
+            if (client == null) {
+                clientRepository.create('Default Client', config.defaultClientId, config.defaultClientSecret).then((result) => {
+                    console.log('Default client created.');
+                }).catch((err: Error) => {
+                    console.log(err);
+                });
+            }else {
+                 console.log('Default client already exist.');
+            }
+        });
     }
 
     private configureMiddleware(app: express.Express) {

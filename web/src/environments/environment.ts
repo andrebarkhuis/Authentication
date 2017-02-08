@@ -7,5 +7,8 @@ export const environment = {
   production: false,
   api: {
     uri: 'http://localhost:9009/api'
+  },
+  appSettings: {
+    allowSelfRegistrations: true
   }
 };

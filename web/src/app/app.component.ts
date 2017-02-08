@@ -16,12 +16,13 @@ export class AppComponent {
   username: string;
   password: string;
   message: string;
+  appSettings: any;
 
   constructor(private http: Http) {
-
+    this.appSettings = environment.appSettings;
   }
 
-  login() {
+  public login() {
 
     this.message = null;
 
@@ -45,7 +46,7 @@ export class AppComponent {
     }
   }
 
-  getParameterByName(name: string) {
+  private getParameterByName(name: string) {
 
     let url = window.location.href;
 
