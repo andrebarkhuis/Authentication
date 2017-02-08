@@ -36,9 +36,9 @@ router.get('/authorize', (req: Request, res: Response, next: Function) => {
         let redirectUri = req.query.redirect_uri;
         let scope = req.query.scope;
 
-        res.redirect(config.web.uri + '?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&scope=' + scope + '&response_type=' + responseType);
+        res.redirect(config.web.uri + '/login?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&scope=' + scope + '&response_type=' + responseType);
     } else {
-        res.status(400).send('Reponse Type not supported');
+        res.status(400).send('Response Type not supported');
     }
 });
 
