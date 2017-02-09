@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   message: string;
   appSettings: any = environment.appSettings;
   queryString: any = window.location.search;
+  apiUri: string = environment.api.uri;
 
   constructor(private http: Http) {
 
