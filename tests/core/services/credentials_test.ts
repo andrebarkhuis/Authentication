@@ -3,7 +3,7 @@ import { CredentialsRepository } from './../../../api/src/core/repositories/cred
 import 'mocha';
 import { expect } from 'chai';
 
-describe('UserService', () => {
+describe('CredentialsService', () => {
     let credentialsService: CredentialsService;
     let credentialsRepository: CredentialsRepository;
 
@@ -18,7 +18,7 @@ describe('UserService', () => {
         credentialsService = new CredentialsService(credentialsRepository);
 
         credentialsRepository.clear().then((result) => {
-            credentialsRepository.create('test-client-id', 'test-username', 'test-email-address', 'test-password').then((result) => {
+            credentialsRepository.create('test-client-id-existing', 'test-username-existing', 'test-email-address-existing', 'test-password-existing').then((result) => {
                 done();
             }).catch((err: Error) => {
                 done(err);
@@ -30,7 +30,7 @@ describe('UserService', () => {
 
     describe('create', () => {
         it('should succeed given non-existing username', (done) => {
-            credentialsService.create('test-client-id1', 'test-username1', 'test-email-address', 'test-password1')
+            credentialsService.create('test-client-id--existing', 'test-username-non-existing', 'test-email-address-existing', 'test-password-existing')
                 .then((result) => {
                     done();
                 }).catch((err: Error) => {
@@ -39,7 +39,17 @@ describe('UserService', () => {
         });
 
         it('should fail given existing username', (done) => {
-            credentialsService.create('test-client-id', 'test-username', 'test-email-address', 'test-password')
+            credentialsService.create('test-client-id-existing', 'test-username-existing', 'test-email-address-non-existing', 'test-password-existing')
+                .then((result) => {
+                    done(new Error('Expected Error'));
+                }).catch((err: Error) => {
+                    done();
+                });
+        });
+
+
+        it('should fail given existing email address', (done) => {
+            credentialsService.create('test-client-id-existing', 'test-username-non-existing', 'test-email-address-existing', 'test-password-existing')
                 .then((result) => {
                     done(new Error('Expected Error'));
                 }).catch((err: Error) => {
@@ -48,7 +58,7 @@ describe('UserService', () => {
         });
 
         it('should succeed given existing username with different clientId', (done) => {
-            credentialsService.create('test-client-id1', 'test-username', 'test-email-address', 'test-password')
+            credentialsService.create('test-client-id-non-existing', 'test-username-existing', 'test-email-address-existing', 'test-password-existing')
                 .then((result) => {
                     done();
                 }).catch((err: Error) => {
@@ -58,8 +68,8 @@ describe('UserService', () => {
     });
 
     describe('list', () => {
-        it('should return list given valid client id', (done) => {
-            credentialsService.list('test-client-id')
+        it('should return list given existing client id', (done) => {
+            credentialsService.list('test-client-id-existing')
                 .then((result: any[]) => {
                     expect(result.length).to.be.eq(1);
                     done();
@@ -68,8 +78,8 @@ describe('UserService', () => {
                 });
         });
 
-        it('should return empty list given invalid client id', (done) => {
-            credentialsService.list('test-client-id-invalid')
+        it('should return empty list given non-existing client id', (done) => {
+            credentialsService.list('test-client-id-non-existing')
                 .then((result: any[]) => {
                     expect(result.length).to.be.eq(0);
                     done();
@@ -81,7 +91,7 @@ describe('UserService', () => {
 
     describe('exist', () => {
         it('should return true given existing client id and username', (done) => {
-            credentialsService.exist('test-client-id', 'test-username')
+            credentialsService.exist('test-client-id-existing', 'test-username-existing')
                 .then((result: boolean) => {
                     expect(result).to.be.true;
                     done();
@@ -90,8 +100,8 @@ describe('UserService', () => {
                 });
         });
 
-        it('should return false given existing client id and username', (done) => {
-            credentialsService.exist('test-client-id-invalid', 'test-username-invalid')
+        it('should return false given non-existing client id and username', (done) => {
+            credentialsService.exist('test-client-id-non-existing', 'test-username-non-existing')
                 .then((result: boolean) => {
                     expect(result).to.be.false;
                     done();

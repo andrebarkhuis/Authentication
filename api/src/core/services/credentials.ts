@@ -9,10 +9,18 @@ export class CredentialsService {
 
     create(clientId: string, username: string, emailAddress: string, password: string) {
         return new Promise((resolve: Function, reject: Function) => {
-            this.credentialsRepository.findByUsername(clientId, username).then((result) => {
-                if (result == null) {
-                    this.credentialsRepository.create(clientId, username, emailAddress, password).then((result) => {
-                        resolve();
+            this.credentialsRepository.findByUsername(clientId, username).then((usernameResult) => {
+                if (usernameResult == null) {
+                    this.credentialsRepository.findByEmailAddress(clientId, emailAddress).then((emailAddressResult) => {
+                        if (emailAddressResult == null) {
+                            this.credentialsRepository.create(clientId, username, emailAddress, password).then((result) => {
+                                resolve();
+                            }).catch((err: Error) => {
+                                reject(err);
+                            });
+                        } else {
+                            throw new Error('Email address already exist.');
+                        }
                     }).catch((err: Error) => {
                         reject(err);
                     });
@@ -40,7 +48,7 @@ export class CredentialsService {
             this.credentialsRepository.findByUsername(clientId, username).then((result) => {
                 if (result == null) {
                     resolve(false);
-                }else {
+                } else {
                     resolve(true);
                 }
             }).catch((err: Error) => {

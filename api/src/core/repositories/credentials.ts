@@ -66,7 +66,30 @@ export class CredentialsRepository {
                         } else if (result == null) {
                             resolve(null);
                         } else {
-                            resolve(new Credentials(result.clientId, result.username, result.password));
+                            resolve(new Credentials(result.clientId, result.username, result.emailAddress, result.password));
+                        }
+                        db.close();
+                    });
+                }
+            });
+        });
+    }
+
+    findByEmailAddress(clientId: string, emailAddress: string) {
+        return new Promise((resolve: Function, reject: Function) => {
+            let mongoClient = new mongodb.MongoClient();
+            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    var collection = db.collection('credentials');
+                    collection.findOne({ clientId: clientId, emailAddress: emailAddress }, (err: Error, result: any) => {
+                        if (err) {
+                            reject(err);
+                        } else if (result == null) {
+                            resolve(null);
+                        } else {
+                            resolve(new Credentials(result.clientId, result.username, result.emailAddress, result.password));
                         }
                         db.close();
                     });
