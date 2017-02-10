@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 // Configures routes
 var router = RouterModule.forRoot([
@@ -19,6 +20,10 @@ var router = RouterModule.forRoot([
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'forgotpassword',
+    component: ForgotPasswordComponent
   }
 ]);
 
@@ -26,7 +31,8 @@ var router = RouterModule.forRoot([
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
