@@ -8,7 +8,7 @@ var ts = require('gulp-typescript');
 gulp.task('ts', ['clean'], function () {
     return gulp
         .src(["./src/**/*.ts"], { base: './src' })
-        .pipe(ts({ module: 'commonjs', noImplicitAny: false, allowJs: true, allowUnreachableCode: true }))
+        .pipe(ts({ module: 'commonjs', noImplicitAny: false, allowUnreachableCode: true, declaration: true }))
         .pipe(gulp.dest('./src'));
 });
 
@@ -17,6 +17,7 @@ gulp.task('clean', function () {
     return gulp
         .src([
             './src/**/*.js',
+            './src/**/*.d.ts',
             './dist'
         ], { read: false })
         .pipe(clean())
@@ -33,6 +34,6 @@ gulp.task('build1', ['clean'], function () {
 gulp.task('build', ['build1'], function () {
     return gulp
         .src(["./src/**/*.ts"], { base: './src' })
-        .pipe(ts({ module: 'commonjs', noImplicitAny: false, allowJs: true, allowUnreachableCode: true }))
+        .pipe(ts({ module: 'commonjs', noImplicitAny: false, declaration: true, allowUnreachableCode: true }))
         .pipe(gulp.dest('./dist'));
 });
