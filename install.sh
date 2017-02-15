@@ -40,7 +40,7 @@ npm install
 npm run build
 
 # Change directory to 'admin'
-cd ./../web
+cd ./../admin
 
 # Install node packages for 'admin'
 npm install
