@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   api: {
-    uri: 'http://localhost:9009/api'
+    uri: 'http://authentication.developersworkspace.co.za:9009/api'
   },
   appSettings: {
     allowSelfRegistrations: true

@@ -1,6 +1,6 @@
 export var config = {
     // Hosted endpoint of api
-    baseUri: 'http://localhost:9009',
+    baseUri: 'http://authentication.developersworkspace.co.za:9009',
     // Hosted port of api
     port: 9009,
     // Configurations for JWT of api
@@ -10,7 +10,7 @@ export var config = {
     },
     // Configurations for Web UI
     web: {
-        uri: 'http://localhost:4200'
+        uri: 'http://authentication.developersworkspace.co.za:9010'
     },
     // Configurations for supported OAuth2 of api
     oauth: {
@@ -25,7 +25,7 @@ export var config = {
     },
     // Configurations for MongoDb of api
     mongoDb: {
-        server: 'localhost',
+        server: 'mongo',
         database: 'authentication'
     },
     // Admin Site Configurations
@@ -45,6 +45,7 @@ export var config = {
     // Default client configurations
     defaultClientId: '87025144872751362692',
     defaultClientSecret: '69447957834022926586',
+    // App Settings Configurations
     appSettings: {
         allowSelfRegistration: true
     }

@@ -14,13 +14,13 @@ services:
         build: web
         ports:
         # Fowards host port to 'web'
-        - "9010:80"
+        - "9010:9010"
     admin:
         # Uses Dockerfile in 'admin'
         build: admin
         ports:
         # Fowards host port to 'admin'
-        - "9011:80"
+        - "9011:9011"
     mongo:
         # Uses mongo image from Docker hub
         image: "mongo"
