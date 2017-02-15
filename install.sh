@@ -10,47 +10,47 @@ curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 # Install 'typescript' node package
-npm install -g typescript
+sudo npm install -g typescript
 
 # Install 'gulp' node package
-npm install -g gulp
+sudo npm install -g gulp
 
 # Install 'angular-cli' node package
-npm install -g @angular/cli
+sudo npm install -g @angular/cli
 
 # Clone 'Authentication' repository
-git clone https://github.com/developersworkspace/Authentication.git
+sudo git clone https://github.com/developersworkspace/Authentication.git
 
 # Change directory to 'api'
-cd ./Authentication/api
+sudo  cd ./Authentication/api
 
 # Install node packages for 'api'
-npm install
+sudo npm install
 
 # Build 'api'
-npm run build
+sudo npm run build
 
 # Change directory to 'web'
-cd ./../web
+sudo cd ./../web
 
 # Install node packages for 'web'
-npm install
+sudo npm install
 
 # Build 'web'
-npm run build
+sudo npm run build
 
 # Change directory to 'admin'
-cd ./../admin
+sudo cd ./../admin
 
 # Install node packages for 'admin'
-npm install
+sudo npm install
 
 # Build 'admin'
-npm run build
+sudo npm run build
 
 # Change to root of repository
-cd ./../
+sudo cd ./../
 
 # Build and run docker compose as deamon
-docker-compose up -d
+sudo docker-compose up -d
 
