@@ -14,7 +14,7 @@ export class ClientService {
 
     }
 
-    validateJSONWebToken(token: string) {
+    validateJSONWebToken(token: string): Boolean {
         try {
             let decoded = jwt.verify(token, this.jwtSecret, {
                 issuer: this.jwtIssuer
@@ -25,46 +25,34 @@ export class ClientService {
         }
     }
 
-    create(name: string) {
-        return new Promise((resolve: Function, reject: Function) => {
-            let id: string = uuid.v4();
-            let secret: string = uuid.v4();
+    create(name: string): Promise<Client> {
+        let id: string = uuid.v4();
+        let secret: string = uuid.v4();
 
-            let client = new Client(name, id, secret);
+        let client = new Client(name, id, secret);
 
-            this.clientRepository.create(name, id, secret).then((result) => {
-                resolve(client);
-            }).catch((err: Error) => {
-                reject(err);
-            });
+        return this.clientRepository.create(name, id, secret).then((result) => {
+            return client;
         });
     }
 
-    validate(id: string, secret: string) {
-        return new Promise((resolve: Function, reject: Function) => {
-            this.clientRepository.findByIdAndSecret(id, secret).then((result: Client) => {
-                if (result == null) {
-                    resolve(false);
-                } else {
-                    resolve(true);
-                }
-            }).catch((err: Error) => {
-                reject(err);
-            });
+    validate(id: string, secret: string): Promise<Boolean> {
+        return this.clientRepository.findByIdAndSecret(id, secret).then((result: Client) => {
+            if (result == null) {
+                return false;
+            } else {
+                return true;
+            }
         });
     }
 
-    exist(id) {
-        return new Promise((resolve: Function, reject: Function) => {
-            this.clientRepository.findById(id).then((result: Client) => {
-                if (result == null) {
-                    resolve(false);
-                } else {
-                    resolve(true);
-                }
-            }).catch((err: Error) => {
-                reject(err);
-            });
+    exist(id): Promise<Boolean> {
+        return this.clientRepository.findById(id).then((result: Client) => {
+            if (result == null) {
+                return false;
+            } else {
+                return true;
+            }
         });
     }
 

@@ -27,7 +27,7 @@ export class CredentialsRepository {
         });
     }
 
-    validate(clientId: string, username: string, password: string) {
+    validate(clientId: string, username: string, password: string): Promise<Boolean> {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
@@ -52,7 +52,7 @@ export class CredentialsRepository {
         });
     }
 
-    findByUsername(clientId: string, username: string) {
+    findByUsername(clientId: string, username: string): Promise<Credentials> {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
@@ -75,7 +75,7 @@ export class CredentialsRepository {
         });
     }
 
-    findByEmailAddress(clientId: string, emailAddress: string) {
+    findByEmailAddress(clientId: string, emailAddress: string): Promise<Credentials> {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
@@ -98,7 +98,7 @@ export class CredentialsRepository {
         });
     }
 
-    create(clientId: string, username: string, emailAddress: string, password: string) {
+    create(clientId: string, username: string, emailAddress: string, password: string): Promise<Boolean> {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
@@ -124,7 +124,7 @@ export class CredentialsRepository {
         });
     }
 
-    list(clientId: string) {
+    list(clientId: string): Promise<Credentials[]> {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
@@ -134,7 +134,7 @@ export class CredentialsRepository {
                     var collection = db.collection('credentials');
                     collection.find({
                         clientId: clientId
-                    }).toArray(function (err, result) {
+                    }).toArray((err, result) => {
                         resolve(result);
                         db.close();
                     });

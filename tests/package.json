@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "gulp --cwd ./../api ts & gulp ts & mocha --timeout=5000 ./core/**/*.js",
-    "cover": "gulp --cwd ./../api ts & gulp ts & istanbul cover node_modules/mocha/bin/_mocha --root ./../api/src/core ./core/**/*.js",
-    "clean": "gulp --cwd ./../api clean & gulp clean "
+    "test": "gulp --cwd ./../api ts & gulp ts & mocha --timeout=5000 ./core/**/*.js & gulp --cwd ./../api clean & gulp clean",
+    "cover": "gulp --cwd ./../api ts & gulp ts & istanbul cover node_modules/mocha/bin/_mocha --root ./../api/src/core ./core/**/*.js & gulp --cwd ./../api clean & gulp clean",
+    "clean": "gulp --cwd ./../api clean & gulp clean"
   },
   "author": "Barend Erasmus",
   "license": "MIT",

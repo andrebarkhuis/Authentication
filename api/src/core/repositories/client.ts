@@ -27,7 +27,7 @@ export class ClientRepository {
         });
     }
 
-    create(name: string, id: string, secret: string) {
+    create(name: string, id: string, secret: string): Promise<Boolean> {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
@@ -52,7 +52,7 @@ export class ClientRepository {
         });
     }
 
-    findByIdAndSecret(id: string, secret: string) {
+    findByIdAndSecret(id: string, secret: string): Promise<Client> {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
@@ -75,7 +75,7 @@ export class ClientRepository {
         });
     }
 
-    findById(id: string) {
+    findById(id: string): Promise<Client> {
         return new Promise((resolve: Function, reject: Function) => {
             let mongoClient = new mongodb.MongoClient();
             mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {

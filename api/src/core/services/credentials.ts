@@ -1,59 +1,48 @@
 // Imports repositories
 import { CredentialsRepository } from './../repositories/credentials'
 
+// Imports models
+import { Credentials } from './../models/credentials';
+
 export class CredentialsService {
 
     constructor(private credentialsRepository: CredentialsRepository) {
 
     }
 
-    create(clientId: string, username: string, emailAddress: string, password: string) {
-        return new Promise((resolve: Function, reject: Function) => {
-            this.credentialsRepository.findByUsername(clientId, username).then((usernameResult) => {
-                if (usernameResult == null) {
-                    this.credentialsRepository.findByEmailAddress(clientId, emailAddress).then((emailAddressResult) => {
-                        if (emailAddressResult == null) {
-                            this.credentialsRepository.create(clientId, username, emailAddress, password).then((result) => {
-                                resolve();
-                            }).catch((err: Error) => {
-                                reject(err);
-                            });
-                        } else {
-                            throw new Error('Email address already exist.');
-                        }
-                    }).catch((err: Error) => {
-                        reject(err);
-                    });
-                } else {
-                    throw new Error('Username already exist.');
-                }
-            }).catch((err: Error) => {
-                reject(err);
-            })
+    create(clientId: string, username: string, emailAddress: string, password: string): Promise<Boolean> {
+        return this.credentialsRepository.findByUsername(clientId, username).then((usernameResult: Credentials) => {
+            if (usernameResult == null) {
+                return this.credentialsRepository.findByEmailAddress(clientId, emailAddress).then((emailAddressResult: Credentials) => {
+                    if (emailAddressResult == null) {
+                        return this.credentialsRepository.create(clientId, username, emailAddress, password).then((result: Boolean) => {
+                            return result;
+                        });
+                    } else {
+                        throw new Error('Email address already exist.');
+                    }
+                });
+            } else {
+                throw new Error('Username already exist.');
+            }
+        });
+
+    }
+
+    list(clientId: string): Promise<Credentials[]> {
+        return this.credentialsRepository.list(clientId).then((result: Credentials[]) => {
+            return result;
         });
     }
 
-    list(clientId: string) {
-        return new Promise((resolve: Function, reject: Function) => {
-            this.credentialsRepository.list(clientId).then((result) => {
-                resolve(result);
-            }).catch((err: Error) => {
-                reject(err);
-            })
-        });
-    }
+    exist(clientId: string, username: string): Promise<Boolean> {
 
-    exist(clientId: string, username: string) {
-        return new Promise((resolve: Function, reject: Function) => {
-            this.credentialsRepository.findByUsername(clientId, username).then((result) => {
-                if (result == null) {
-                    resolve(false);
-                } else {
-                    resolve(true);
-                }
-            }).catch((err: Error) => {
-                reject(err);
-            })
+        return this.credentialsRepository.findByUsername(clientId, username).then((result) => {
+            if (result == null) {
+                return false;
+            } else {
+                return true;
+            }
         });
     }
 }

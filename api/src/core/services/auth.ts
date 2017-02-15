@@ -12,7 +12,7 @@ export class AuthService {
 
     constructor(private baseUri: string, private jwtSecret: string, private jwtIssuer: string, private oauthConfig: any, private credentialsRepository: CredentialsRepository) { }
 
-    authorize(clientId: string, username: string) {
+    authorize(clientId: string, username: string): string {
         let token = jwt.sign({ username: username }, this.jwtSecret, {
             expiresIn: 3600,
             audience: clientId,
@@ -23,7 +23,7 @@ export class AuthService {
         return token;
     }
 
-    verify(token: string) {
+    verify(token: string): Boolean {
         try {
             let decoded = jwt.verify(token, this.jwtSecret, {
                 issuer: this.jwtIssuer
@@ -34,7 +34,7 @@ export class AuthService {
         }
     }
 
-    decodeToken(token: string) {
+    decodeToken(token: string): any {
         try {
             let decoded = jwt.verify(token, this.jwtSecret, {
                 issuer: this.jwtIssuer
@@ -45,11 +45,11 @@ export class AuthService {
         }
     }
 
-    authenticate(clientId: string, username: string, password: string) {
+    authenticate(clientId: string, username: string, password: string): Promise<Boolean> {
         return this.credentialsRepository.validate(clientId, username, password);
     }
 
-    createClientAuths(clientId: string, redirectUri: string) {
+    createClientAuths(clientId: string, redirectUri: string): any {
 
         let encodedState = this.encodeState(clientId, redirectUri);
 
@@ -79,7 +79,7 @@ export class AuthService {
         };
     }
 
-    decodeState(state: string) {
+    decodeState(state: string): any {
 
         let bytes = base64.decode(state);
         let text = utf8.decode(bytes);
@@ -91,7 +91,7 @@ export class AuthService {
         };
     }
 
-    encodeState(clientId: string, redirectUri: string) {
+    encodeState(clientId: string, redirectUri: string): string {
 
         if (redirectUri == null) {
             return null;
