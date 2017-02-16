@@ -29,57 +29,40 @@ describe('ClientService', () => {
     });
 
     describe('create', () => {
-        it('should succeed given name', (done) => {
-            clientService.create('test-client-id')
+        it('should succeed given name', () => {
+            return clientService.create('test-client-id')
                 .then((result) => {
-                    done();
-                }).catch((err: Error) => {
-                    done(err);
                 });
         });
     });
 
 
     describe('exist', () => {
-        it('should return true given existing client id', (done) => {
-            clientService.exist('test-client-id')
+        it('should return true given existing client id', () => {
+            return clientService.exist('test-client-id')
                 .then((result) => {
                     expect(result).to.be.true;
-                    done();
-                }).catch((err: Error) => {
-                    done(err);
                 });
         });
-
-        it('should return false given non-existing client id', (done) => {
-            clientService.exist('test-client-id-invalid')
+        it('should return false given non-existing client id', () => {
+            return clientService.exist('test-client-id-invalid')
                 .then((result) => {
                     expect(result).to.be.false;
-                    done();
-                }).catch((err: Error) => {
-                    done(err);
                 });
         });
     });
 
     describe('validate', () => {
-        it('should return true given valid client id and valid client secret', (done) => {
-            clientService.validate('test-client-id', 'test-client-secret')
+        it('should return true given valid client id and valid client secret', () => {
+            return clientService.validate('test-client-id', 'test-client-secret')
                 .then((result) => {
                     expect(result).to.be.true;
-                    done();
-                }).catch((err: Error) => {
-                    done(err);
                 });
         });
-
-        it('should return false given valid client id and invalid client secret', (done) => {
-            clientService.validate('test-client-id', 'test-client-secret-invalid')
+        it('should return false given valid client id and invalid client secret', () => {
+            return clientService.validate('test-client-id', 'test-client-secret-invalid')
                 .then((result) => {
                     expect(result).to.be.false;
-                    done();
-                }).catch((err: Error) => {
-                    done(err);
                 });
         });
     });

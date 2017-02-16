@@ -116,21 +116,15 @@ describe('AuthService', () => {
     });
 
     describe('authenticate', () => {
-        it('should return true given valid client id, valid username and valid password', (done: Function) => {
-            authService.authenticate('test-client-id', 'test-username', 'test-password').then((result: boolean) => {
+        it('should return true given valid client id, valid username and valid password', () => {
+            return authService.authenticate('test-client-id', 'test-username', 'test-password').then((result: boolean) => {
                 expect(result).to.be.true;
-                done();
-            }).catch((err: Error) => {
-                done(err);
             });
         });
 
-        it('should return true given invalid client id, valid username and valid password', (done: Function) => {
-            authService.authenticate('invalid-test-client-id', 'test-username', 'test-password').then((result: boolean) => {
+        it('should return true given invalid client id, valid username and valid password', () => {
+            return authService.authenticate('invalid-test-client-id', 'test-username', 'test-password').then((result: boolean) => {
                 expect(result).to.be.false;
-                done();
-            }).catch((err: Error) => {
-                done(err);
             });
         });
     });
