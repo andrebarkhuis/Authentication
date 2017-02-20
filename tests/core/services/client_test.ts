@@ -1,7 +1,13 @@
-import { ClientService } from './../../../api/src/core/services/client';
-import { ClientRepository } from './../../../api/src/core/repositories/client';
+// Imports
+import * as mongodb from 'mongo-mock';
 import 'mocha';
 import { expect } from 'chai';
+
+// Imports services
+import { ClientService } from './../../../api/src/core/services/client';
+
+// Imports repositories
+import { ClientRepository } from './../../../api/src/core/repositories/client';
 
 describe('ClientService', () => {
     let clientService: ClientService;
@@ -13,19 +19,23 @@ describe('ClientService', () => {
             database: 'authentication'
         };
 
-        clientRepository = new ClientRepository(mongoDbConfig);
+        let mongoClient = mongodb.MongoClient;
+
+        clientRepository = new ClientRepository(mongoDbConfig, mongoClient);
 
         clientService = new ClientService(clientRepository, '', '');
 
-        clientRepository.clear().then((result) => {
-            clientRepository.create('test-client-name', 'test-client-id', 'test-client-secret').then((result) => {
-                done();
-            }).catch((err: Error) => {
-                done(err);
+        mongoClient.connect('mongodb://' + mongoDbConfig.server + ':27017/' + mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+            var collection = db.collection('credentials');
+            collection.remove({}, (err: Error, result: any) => {
+                clientRepository.create('test-client-name', 'test-client-id', 'test-client-secret').then((result) => {
+                    done();
+                }).catch((err: Error) => {
+                    done(err);
+                });
             });
-        }).catch((err: Error) => {
-            done(err);
         });
+
     });
 
     describe('create', () => {

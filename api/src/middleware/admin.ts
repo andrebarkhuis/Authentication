@@ -1,5 +1,6 @@
 // Imports
 import { Express, Request, Response } from "express";
+import * as mongodb from 'mongodb';
 
 // Import core services
 import { ClientService } from './../core/services/client';
@@ -111,7 +112,8 @@ export function requiresSuperAdmin(req: Request, res: Response, next: Function) 
 
 // Get Instance of ClientService
 function getAdminClientService() {
-    let clientRepository = new ClientRepository(config.mongoDb);
+    let mongoClient = new mongodb.MongoClient();
+    let clientRepository = new ClientRepository(config.mongoDb, mongoClient);
     let clientService = new ClientService(clientRepository, config.admin.jwt.issuer, config.admin.jwt.secret);
     return clientService;
 }
@@ -119,7 +121,8 @@ function getAdminClientService() {
 
 // Get Instance of ClientService
 function getSuperAdminClientService() {
-    let clientRepository = new ClientRepository(config.mongoDb);
+    let mongoClient = new mongodb.MongoClient();
+    let clientRepository = new ClientRepository(config.mongoDb, mongoClient);
     let clientService = new ClientService(clientRepository, config.superadmin.jwt.issuer, config.superadmin.jwt.secret);
     return clientService;
 }

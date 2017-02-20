@@ -1,6 +1,7 @@
 // Imports 
 import { Express, Request, Response } from "express";
 import request from 'request';
+import * as mongodb from 'mongodb';
 
 // Imports services 
 import { ClientService } from './../core/services/client';
@@ -138,14 +139,16 @@ router.post('/register', (req: Request, res: Response, next: Function) => {
 
 // Get Instance of UserService
 function getCredentialsService() {
-    let credentialsRepository = new CredentialsRepository(config.mongoDb);
+    let mongoClient = new mongodb.MongoClient();
+    let credentialsRepository = new CredentialsRepository(config.mongoDb, mongoClient);
     let credentialsService = new CredentialsService(credentialsRepository);
     return credentialsService;
 }
 
 // Get Instance of ClientService
 function getClientService() {
-    let clientRepository = new ClientRepository(config.mongoDb);
+    let mongoClient = new mongodb.MongoClient();
+    let clientRepository = new ClientRepository(config.mongoDb, mongoClient);
     let clientService = new ClientService(clientRepository, config.admin.jwt.issuer, config.admin.jwt.secret);
     return clientService;
 }

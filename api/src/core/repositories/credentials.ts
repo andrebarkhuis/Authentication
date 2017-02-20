@@ -6,31 +6,11 @@ import { Credentials } from './../models/credentials';
 
 export class CredentialsRepository {
 
-    constructor(private mongoDbConfig: any) { }
-
-    clear() {
-        return new Promise((resolve: Function, reject: Function) => {
-            let mongoClient = new mongodb.MongoClient();
-            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    db.dropDatabase().then((result) => {
-                        resolve();
-                        db.close();
-                    }).catch((err: Error) => {
-                        reject(err);
-                        db.close();
-                    });
-                }
-            });
-        });
-    }
+    constructor(private mongoDbConfig: any, private mongoClient: any) { }
 
     validate(clientId: string, username: string, password: string): Promise<Boolean> {
         return new Promise((resolve: Function, reject: Function) => {
-            let mongoClient = new mongodb.MongoClient();
-            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+            this.mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -54,8 +34,7 @@ export class CredentialsRepository {
 
     findByUsername(clientId: string, username: string): Promise<Credentials> {
         return new Promise((resolve: Function, reject: Function) => {
-            let mongoClient = new mongodb.MongoClient();
-            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+            this.mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -77,8 +56,7 @@ export class CredentialsRepository {
 
     findByEmailAddress(clientId: string, emailAddress: string): Promise<Credentials> {
         return new Promise((resolve: Function, reject: Function) => {
-            let mongoClient = new mongodb.MongoClient();
-            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+            this.mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -100,8 +78,7 @@ export class CredentialsRepository {
 
     create(clientId: string, username: string, emailAddress: string, password: string): Promise<Boolean> {
         return new Promise((resolve: Function, reject: Function) => {
-            let mongoClient = new mongodb.MongoClient();
-            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+            this.mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -126,8 +103,7 @@ export class CredentialsRepository {
 
     list(clientId: string): Promise<Credentials[]> {
         return new Promise((resolve: Function, reject: Function) => {
-            let mongoClient = new mongodb.MongoClient();
-            mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+            this.mongoClient.connect('mongodb://' + this.mongoDbConfig.server + ':27017/' + this.mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
                 if (err) {
                     reject(err);
                 } else {

@@ -1,6 +1,7 @@
 // Imports
 import express = require("express");
 import bodyParser = require("body-parser");
+import * as mongodb from 'mongodb';
 
 // Imports configuration file
 import { config } from './config';
@@ -26,7 +27,8 @@ export class WebApi {
     }
 
     private init() {
-        let clientRepository = new ClientRepository(config.mongoDb);
+        let mongoClient = new mongodb.MongoClient();
+        let clientRepository = new ClientRepository(config.mongoDb, mongoClient);
 
         clientRepository.findById(config.defaultClientId).then((client) => {
             if (client == null) {

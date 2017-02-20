@@ -1,7 +1,13 @@
-import { AuthService } from './../../../api/src/core/services/auth';
-import { CredentialsRepository } from './../../../api/src/core/repositories/credentials';
+// Imports
+import * as mongodb from 'mongo-mock';
 import 'mocha';
 import { expect } from 'chai';
+
+// Imports services
+import { AuthService } from './../../../api/src/core/services/auth';
+
+// Import repositories
+import { CredentialsRepository } from './../../../api/src/core/repositories/credentials';
 
 describe('AuthService', () => {
     let authService: AuthService;
@@ -13,7 +19,9 @@ describe('AuthService', () => {
             database: 'authentication'
         };
 
-        credentialsRepository = new CredentialsRepository(mongoDbConfig);
+        let mongoClient = mongodb.MongoClient;
+
+        credentialsRepository = new CredentialsRepository(mongoDbConfig, mongoClient);
 
         authService = new AuthService('', 'hello_world', 'foo bar', {
             github: {
@@ -26,14 +34,15 @@ describe('AuthService', () => {
             }
         }, credentialsRepository);
 
-        credentialsRepository.clear().then((result) => {
-            credentialsRepository.create('test-client-id', 'test-username', 'test-email-address', 'test-password').then((result) => {
-                done();
-            }).catch((err: Error) => {
-                done(err);
+        mongoClient.connect('mongodb://' + mongoDbConfig.server + ':27017/' + mongoDbConfig.database, (err: Error, db: mongodb.Db) => {
+            var collection = db.collection('credentials');
+            collection.remove({}, (err: Error, result: any) => {
+                credentialsRepository.create('test-client-id', 'test-username', 'test-email-address', 'test-password').then((result) => {
+                    done();
+                }).catch((err: Error) => {
+                    done(err);
+                });
             });
-        }).catch((err: Error) => {
-            done(err);
         });
     });
 

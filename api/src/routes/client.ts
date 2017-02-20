@@ -2,6 +2,7 @@
 import { Express, Request, Response } from "express";
 import * as express from 'express';
 import request from 'request';
+import * as mongodb from 'mongodb';
 
 // Imports core services 
 import { ClientService } from './../core/services/client';
@@ -43,7 +44,8 @@ router.post('/create', (req: Request, res: Response, next: Function) => {
 
 // Get Instance of ClientService
 function getClientService() {
-    let clientRepository = new ClientRepository(config.mongoDb);
+    let mongoClient = new mongodb.MongoClient();
+    let clientRepository = new ClientRepository(config.mongoDb, mongoClient);
     let clientService = new ClientService(clientRepository, config.superadmin.jwt.issuer, config.superadmin.jwt.secret);
     return clientService;
 }
